@@ -1,10 +1,18 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign, Ionicons } from '@expo/vector-icons'; 
 
-const IconTab = ({iconName, onPress, styles, focused}) => {
+
+const IconTab = ({iconName, type, focused, size=24}) => {
+  let Tab = AntDesign
+  if (type === "AntDesign") {
+    Tab = AntDesign;
+  } else {
+    Tab = Ionicons;
+  }
+    
   const image = (
-    <AntDesign name={iconName} size={24} color={focused ? "black" : "gray"} focused={focused}/>
+    <Tab name={iconName} size={size} color={focused ? "black" : "gray"} focused={focused}/>
   )
   return image
 }

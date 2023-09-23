@@ -5,6 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import FavouriteScreen from "../screens/FavouriteScreen";
 import IconTab from "../components/IconTab";
+import {Home, Search, Favourite} from "./../constants/icon"
 
 const Tab = createBottomTabNavigator();
 
@@ -13,28 +14,19 @@ const tabs = [
     type: "home",
     screen: HomeScreen,
     name: "Home",
-    icon: {
-      true: <IconTab iconName="home" focused={true} />,
-      false: <IconTab iconName="home" focused={false} />,
-    },
+    icon : Home
   },
   {
     type: "search1",
     screen: SearchScreen,
     name: "Search",
-    icon: {
-      true: <IconTab iconName="search1" focused={true} />,
-      false: <IconTab iconName="search1" focused={false} />,
-    },
+    icon: Search
   },
   {
     type: "hearto",
     screen: FavouriteScreen,
     name: "Favourite",
-    icon: {
-      true: <IconTab iconName="hearto" focused={true} />,
-      false: <IconTab iconName="hearto" focused={false} />,
-    },
+    icon: Favourite
   },
 ];
 
@@ -54,7 +46,7 @@ const TabNavigator = () => {
               tabBarActiveTintColor: "#000000",
               tabBarInactiveTintColor: "gray",
               tabBarIcon: ({ focused }) => {
-                return focused ? icon[true] : icon[false];
+                return focused ? icon['active'] : icon['inactive']
               },
             }}
           />
