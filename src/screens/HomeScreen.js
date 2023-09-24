@@ -9,11 +9,11 @@ import ImageList from '../components/ImageList';
 const HomeScreen = () => {
   return (
     <>
-    <MainHeader title='Daxua'/>
+    <MainHeader title='Pixiv'/>
     <ScreenHeader/>
     <ScrollView showsVerticalScrollIndicator={false}>
       <TopCarousel list={FAVOURITE_LIST}></TopCarousel>
-      <SectionHeader title="Solo Daxua" buttonTitle='More Daxua'/>
+      <SectionHeader title="Recommended" buttonTitle='More'/>
       <ImageList list={IMAGE_LIST}/>
     </ScrollView>
     </>

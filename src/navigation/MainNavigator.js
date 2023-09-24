@@ -1,16 +1,22 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
 import TabNavigator from './TabNavigator';
+import ImageDetailsScreen from '../screens/ImageDetailsScreen';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
-const Stack = createNativeStackNavigator();
+
+const Stack = createSharedElementStackNavigator();
 
 const MainNavigator = () => {
     return <NavigationContainer>
         <Stack.Navigator>
+
             <Stack.Screen name='root' component={TabNavigator} options={{headerShown: false}} />
+            <Stack.Screen name='ImageDetails' component={ImageDetailsScreen} options={{
+                headerShown: false,
+
+                }}/>
+       
         </Stack.Navigator>
     </NavigationContainer>
 }

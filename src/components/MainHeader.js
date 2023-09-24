@@ -13,7 +13,7 @@ import {
 const MainHeader = ({title}) => {
     const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.container ,{marginTop: insets.top, }]}>
+    <View style={[styles.container ,{marginTop: insets.top,}]}>
       <TouchableOpacity>
         <Ionicons name="ios-menu" size={30} color="black" />
       </TouchableOpacity>

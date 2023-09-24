@@ -1,28 +1,38 @@
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import FavouriteButton from './FavouriteButton';
+import { useNavigation } from '@react-navigation/native';
+import {SharedElement} from 'react-navigation-shared-element'
 const { width } = Dimensions.get('window');
 const IMAGE_WIDTH = 0.7 * width;
 const IMAGE_HEIGHT = 200;
 const TopCarousel = ({list}) => {
+  const navigation=useNavigation()
   return ( 
     <FlatList data={list} horizontal showsHorizontalScrollIndicator={false}
      snapToInterval={IMAGE_WIDTH}
     decelerationRate="fast"
      showsVerticalScrollIndicator={false} keyExtractor={i => i.id} renderItem={({item, index}) => {
         return (
+          <TouchableOpacity onPress={() => {navigation.navigate('ImageDetails', {imageDetail: item})}}>
+
           <View style={{marginLeft: width * 0.08, marginRight: index === list.length - 1 ?  width * 0.08 : 0}}>
             <View style={styles.card}>
               <FavouriteButton style={styles.favourite}/>
+              <SharedElement id={`ImageDetails.${item.id}.image`}>
               <View style={styles.imageBox}>
                 <Image style={styles.image} source={item.image}/>
               </View>
+              </SharedElement>
               <View style={[styles.titleBox, styles.shadow]}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.author}>{item.author}</Text>
-              </View>     
+              </View>  
             </View>
           </View> 
+
+          </TouchableOpacity>
+          
         ) 
     }}>
         
@@ -48,8 +58,6 @@ const styles = StyleSheet.create({
     width: IMAGE_WIDTH,
     height: IMAGE_HEIGHT,
     resizeMode: 'cover',
-    opacity: 0.8
-
    },
    titleBox: {
      position: 'absolute',
@@ -68,10 +76,10 @@ const styles = StyleSheet.create({
    shadow: {
       shadowColor: '#000000',
       shadowOffset: {
-        width: 5,
-        height: 3
+        width: 10,
+        height: 10
       },
-      shadowRadius: 5,
+      shadowRadius: 20,
       shadowOpacity: 1.0
    },
    favourite: {

@@ -1,33 +1,38 @@
 import { Animated, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/HomeScreen";
-import SearchScreen from "../screens/SearchScreen";
+
+import ExploreScreen from "../screens/ExploreScreen";
 import FavouriteScreen from "../screens/FavouriteScreen";
-import IconTab from "../components/IconTab";
-import {Home, Search, Favourite} from "./../constants/icon"
+import NewsScreen from "../screens/NewsScreen";
+
+import {Home, Search, Favourite , News} from "./../constants/icon"
+import HomeNavigator from "./HomeNavigator";
 
 const Tab = createBottomTabNavigator();
 
 const tabs = [
   {
-    type: "home",
-    screen: HomeScreen,
+    screen: HomeNavigator,
     name: "Home",
     icon : Home
   },
   {
-    type: "search1",
-    screen: SearchScreen,
-    name: "Search",
+    screen: ExploreScreen,
+    name: "Explore",
     icon: Search
   },
   {
-    type: "hearto",
+    screen: NewsScreen,
+    name: "News",
+    icon: News
+  },
+  {
     screen: FavouriteScreen,
     name: "Favourite",
     icon: Favourite
   },
+  
 ];
 
 const TabNavigator = () => {
@@ -43,8 +48,6 @@ const TabNavigator = () => {
             name={name}
             component={screen}
             options={{
-              tabBarActiveTintColor: "#000000",
-              tabBarInactiveTintColor: "gray",
               tabBarIcon: ({ focused }) => {
                 return focused ? icon['active'] : icon['inactive']
               },

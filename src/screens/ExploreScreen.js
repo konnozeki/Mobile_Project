@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const SearchScreen = () => {
+const ExploreScreen = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text >Search Screen</Text>
@@ -9,6 +9,6 @@ const SearchScreen = () => {
   )
 }
 
-export default SearchScreen
+export default ExploreScreen
 
 const styles = StyleSheet.create({})

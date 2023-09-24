@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import IconTab from './IconTab'
-import { AntDesign } from '@expo/vector-icons'; 
-import { Favourite } from '../constants/icon';
-
-const FavouriteButton = ({active, style}) => {
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState} from "react";
+import IconTab from "./IconTab";
+import { AntDesign } from "@expo/vector-icons";
+import { Favourite } from "../constants/icon";
+const FavouriteButton = ({style}) => {
+  const [count, setCount] = useState(0);
+  const onPress = () => setCount(prevCount => prevCount + 1);
   return (
-    <View style={[{backgroundColor: 'white', padding: 4}, style]}>
-      {active ? Favourite['filled'] : Favourite['active']}
-    </View>
-  )
-}
+    <TouchableOpacity style={[{ backgroundColor: "white", padding: 4 }, style]} onPress={onPress}>
+      {count % 2 === 1 ? Favourite["filled"] : Favourite["active"]}
+    </TouchableOpacity>
+  );
+};
 
-export default FavouriteButton
+export default FavouriteButton;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
