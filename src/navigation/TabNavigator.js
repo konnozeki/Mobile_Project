@@ -5,9 +5,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ExploreScreen from "../screens/ExploreScreen";
 import FavouriteScreen from "../screens/FavouriteScreen";
 import NewsScreen from "../screens/NewsScreen";
+import HomeNavigator from "./HomeNavigator";
 
 import {Home, Search, Favourite , News} from "./../constants/icon"
-import HomeNavigator from "./HomeNavigator";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -39,12 +40,12 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: 'white', tabBarStyle: {backgroundColor: '#242526'}}}
     >
-      {tabs.map(({ type, screen, name, icon }) => {
+      {tabs.map(({screen, name, icon }) => {
         return (
           <Tab.Screen
-            key={type}
+            key={name}
             name={name}
             component={screen}
             options={{

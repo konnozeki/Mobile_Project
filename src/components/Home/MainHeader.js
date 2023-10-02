@@ -5,7 +5,7 @@ import {
     useSafeAreaInsets,
   } from 'react-native-safe-area-context';
   import { Ionicons } from '@expo/vector-icons';
-  import {IconTab} from './IconTab';
+  import {IconTab} from '../IconTab';
 
 
 
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: '8%'
+        paddingHorizontal: '5%'
     },
     title: {
       paddingTop: '2%',

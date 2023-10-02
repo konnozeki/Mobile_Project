@@ -9,6 +9,12 @@ const IMAGE_HEIGHT = 200;
 const TopCarousel = ({list}) => {
   const navigation=useNavigation()
   return ( 
+    <>
+        <View style={styles.container}>
+        <Text style={styles.mainTitle}>Illust Ranking</Text>
+
+    </View>
+
     <FlatList data={list} horizontal showsHorizontalScrollIndicator={false}
      snapToInterval={IMAGE_WIDTH}
     decelerationRate="fast"
@@ -18,17 +24,22 @@ const TopCarousel = ({list}) => {
 
           <View style={{marginLeft: width * 0.08, marginRight: index === list.length - 1 ?  width * 0.08 : 0}}>
             <View style={styles.card}>
-              <FavouriteButton style={styles.favourite}/>
+            
+              
               <SharedElement id={`ImageDetails.${item.id}.image`}>
+              
               <View style={styles.imageBox}>
                 <Image style={styles.image} source={item.image}/>
               </View>
+              
               </SharedElement>
               <View style={[styles.titleBox, styles.shadow]}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.author}>{item.author}</Text>
               </View>  
+              
             </View>
+            <View style={{justifyContent: 'flex-end', position: 'absolute', alignSelf:'flex-end', marginTop: IMAGE_HEIGHT-32}}><FavouriteButton/></View>
           </View> 
 
           </TouchableOpacity>
@@ -37,21 +48,31 @@ const TopCarousel = ({list}) => {
     }}>
         
     </FlatList>
+    </>
   )
 }
 
 export default TopCarousel
 
 const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: '8%',
+    marginVertical: '2%'
+},
+  mainTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    
+},
    card: {
       width: IMAGE_WIDTH,
       height: IMAGE_HEIGHT,
-      marginVertical: 10
+
    },
    imageBox: {
       width: IMAGE_WIDTH,
       height: IMAGE_HEIGHT,
-      borderRadius: '20%',
+      borderRadius: '5%',
       overflow: 'hidden',
    },
    image: {
@@ -73,20 +94,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white'
    },
-   shadow: {
-      shadowColor: '#000000',
-      shadowOffset: {
-        width: 10,
-        height: 10
-      },
-      shadowRadius: 20,
-      shadowOpacity: 1.0
-   },
    favourite: {
     position: 'absolute',
     top: IMAGE_HEIGHT - 55,
     right: 10,
     zIndex: 1
-   }
 
+  }
+   
 })

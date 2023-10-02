@@ -1,22 +1,21 @@
-import { StyleSheet, ScrollView} from 'react-native'
+import { StyleSheet, ScrollView, SafeAreaView} from 'react-native'
 import React from 'react'
 
-import MainHeader from '../components/MainHeader'
-import ScreenHeader from '../components/ScreenHeader';
-import TopCarousel from '../components/TopCarousel';
-import SectionHeader from '../components/SectionHeader';
-import ImageList from '../components/ImageList';
+import MainHeader from '../components/Home/MainHeader'
+import ScreenHeader from '../components/Home/ScreenHeader';
+import TopCarousel from '../components/Home/TopCarousel';
+import SectionHeader from '../components/Home/SectionHeader';
+import ImageList from '../components/Home/ImageList';
 const HomeScreen = () => {
   return (
-    <>
-    <MainHeader title='Pixiv'/>
-    <ScreenHeader/>
+    <SafeAreaView>
+
     <ScrollView showsVerticalScrollIndicator={false}>
       <TopCarousel list={FAVOURITE_LIST}></TopCarousel>
       <SectionHeader title="Recommended" buttonTitle='More'/>
       <ImageList list={IMAGE_LIST}/>
     </ScrollView>
-    </>
+    </SafeAreaView>
     
   )
 }
@@ -49,7 +48,7 @@ const FAVOURITE_LIST = [
 const IMAGE_LIST = [
   {
     id: 1,
-    title: 'Sleeping Day',
+    title: 'Sleeping Day Neeeeee',
     image: require('./../../assets/images/welcome1.jpg'),
     author: 'Yuuki'
 },

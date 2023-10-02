@@ -15,8 +15,8 @@ import {
 
 
   const { width } = Dimensions.get("window");
-  const IMAGE_WIDTH = width * 0.38;
-  const IMAGE_HEIGHT = 200;
+  const IMAGE_WIDTH = width * 0.985 / 2;
+  const IMAGE_HEIGHT = width * 0.985 / 2;
   
   const ImageList = ({ list }) => {
     const navigation = useNavigation();
@@ -25,7 +25,7 @@ import {
       <View style={styles.container}>
         {list.map((item, index) => {
           return (
-            <View style={[styles.cardContainer]}>
+            <View style={[styles.cardContainer]} key={item.id}>
             <TouchableOpacity style={styles.container} key={item.id} onPress={() => {
                 navigation.navigate("ImageDetails", {
                   imageDetail: item,
@@ -37,17 +37,17 @@ import {
                   <SharedElement id={`ImageDetails.${item.id}.image`}>
                     <View style={styles.imageBox}>
                       <Image style={styles.image} source={item.image} />
+                      <View style={{justifyContent: 'flex-end', position: 'absolute', alignSelf:'flex-end', marginBottom: '100%'}}>
+                        <FavouriteButton active={true}/>
+                      </View>
                     </View>
 
                   </SharedElement>
                     
-                    <View style={styles.footer}>
-                      <View style={styles.titleBox}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.author}>{item.author}</Text>
-                      </View>
-                      <FavouriteButton />
-                    </View>
+                        
+                       {/*<Text numberOfLines={1} style={[styles.title, {flexWrap:'nowrap'}]}>{item.title}</Text>
+                       <Text numberOfLines={1} style={styles.author}>{item.author}</Text>*/} 
+                      
                   </View>
                 </View>
 
@@ -67,38 +67,29 @@ import {
       flexWrap: "wrap",
     },
     cardContainer: {
-      marginLeft: width * 0.08,
-      marginBottom: width * 0.08,
-      borderRadius: "20%",
+      marginLeft: width * 0.005,
+      marginBottom: width * 0.005,
     },
     card: {
       width: IMAGE_WIDTH,
       height: IMAGE_HEIGHT,
       backgroundColor: "white",
-      borderRadius: "20%",
+
     },
     imageBox: {
       width: IMAGE_WIDTH,
-      height: IMAGE_HEIGHT - 60,
-      borderTopLeftRadius: "20%",
-      borderTopRightRadius: "20%",
+      height: IMAGE_HEIGHT,
       overflow: "hidden",
     },
     image: {
       width: IMAGE_WIDTH,
-      height: IMAGE_HEIGHT - 60,
+      height: IMAGE_HEIGHT,
       resizeMode: "cover",
     },
-    footer: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginTop: 6,
-      marginLeft: 16,
-      marginRight: 10,
-      marginBottom: 6,
-    },
+
     titleBox: {
       flex: 1,
+
     },
     title: {
       marginVertical: 4,
