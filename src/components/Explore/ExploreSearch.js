@@ -15,7 +15,6 @@ const ExploreInput = () => {
             <View style={{justifyContent: 'center',  backgroundColor: 'white'}}>
             <Image source={require('./../../../assets/search.png')} style={{width: 16, height: 16}}></Image>
             </View>
-           
             <TextInput style={{fontSize: 16, paddingHorizontal: '5%', width: width*0.90, height: 40, backgroundColor: 'white', }} editable placeholder='Search anything...'/>
         </View>
         </SafeAreaView>     

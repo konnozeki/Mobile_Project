@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React from 'react'
-import ExploreSearch from '../components/Explore/ExploreSearch';
-import ExploreContent from '../components/Explore/ExploreContent';
+import ExploreSearch from '../../components/Explore/ExploreSearch';
+import ExploreContent from '../../components/Explore/ExploreContent';
 
 
 const ExploreScreen = () => {

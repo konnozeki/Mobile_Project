@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
-import ImageDetailsScreen from '../screens/ImageDetailsScreen';
+import ImageDetailsScreen from '../screens/Image Details/ImageDetailsScreen';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
 const Stack = createSharedElementStackNavigator();

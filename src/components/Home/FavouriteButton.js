@@ -14,8 +14,8 @@ const FavouriteButton = ({style, active}) => {
   }
   return (
     <>
-      <TouchableOpacity style={[{ backgroundColor: "white", padding: 4, }, style]} onPress={onPress}>
-        {active ? Favourite["filled"] : Favourite["active"]}
+      <TouchableOpacity style={[{ backgroundColor: "transparent", padding: 4, }, style]} onPress={onPress}>
+        {active ? Favourite["filled"] : Favourite["notFilled"]}
       </TouchableOpacity>
     </>
   )

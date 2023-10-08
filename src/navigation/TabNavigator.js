@@ -2,12 +2,13 @@ import { Animated, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import ExploreScreen from "../screens/ExploreScreen";
-import FavouriteScreen from "../screens/FavouriteScreen";
-import NewsScreen from "../screens/NewsScreen";
-import HomeNavigator from "./HomeNavigator";
+import ExploreScreen from "../screens/Explore/ExploreScreen";
+import FavouriteScreen from "../screens/Favourite/FavouriteScreen";
+import NewsScreen from "../screens/News/NewsScreen";
+import HomeNavigator from "./Home/HomeNavigator";
+import ArticleScreen from "../screens/Article/ArticleScreen";
 
-import {Home, Search, Favourite , News} from "./../constants/icon"
+import {Home, Search, Favourite , News, Article} from "./../constants/icon"
 
 
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,12 @@ const tabs = [
     name: "Favourite",
     icon: Favourite
   },
+  {
+    screen: ArticleScreen,
+    name: "Article",
+    icon: Article
+  },
+  
   
 ];
 

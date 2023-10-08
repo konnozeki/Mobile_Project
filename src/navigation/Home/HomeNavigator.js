@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element'
-import HomeScreen from '../screens/HomeScreen'
+import HomeScreen from '../../screens/Home/HomeScreen'
 const Stack = createSharedElementStackNavigator()
 const HomeNavigator = () => {
   return (
