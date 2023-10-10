@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
    imageBox: {
       width: IMAGE_WIDTH,
       height: IMAGE_HEIGHT,
-      borderRadius: '5%',
+      borderRadius: 8,
       overflow: 'hidden',
    },
    image: {
