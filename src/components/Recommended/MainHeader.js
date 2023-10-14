@@ -5,7 +5,6 @@ import {
     useSafeAreaInsets,
   } from 'react-native-safe-area-context';
   import { Ionicons } from '@expo/vector-icons';
-  import {IconTab} from '../IconTab';
 
 
 

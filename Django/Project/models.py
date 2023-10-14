@@ -19,6 +19,7 @@ class User(models.Model):
     name = models.CharField(max_length=30, null=False)
     email = models.EmailField(max_length=254, null=False)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=False, default='M')
+    avatar = models.ImageField(blank=True, upload_to ='uploads/')
     #def user_directory_path(instance, filename):
         #return 'Avatar/{0}/{1}'.format(instance.username, filename)
     #avatar = models.ImageField(height_field=200, width_field=200, upload_to=user_directory_path, default=)
@@ -59,3 +60,5 @@ class Comment(models.Model):
     previous_comment = models.ForeignKey('self', on_delete=models.CASCADE)
     number_of_likes = models.IntegerField(default=0, null=False)
     content = models.TextField(null=False)
+
+

@@ -9,7 +9,7 @@ import {
     Touchable,
   } from "react-native";
   import React from "react";
-  import FavouriteButton from "./FavouriteButton";
+  import FavouriteButton from "../Shared/FavouriteButton";
   import { useNavigation } from "@react-navigation/native";
   import {SharedElement} from "react-navigation-shared-element"
 
@@ -44,9 +44,6 @@ import {
 
                   </SharedElement>
                     
-                        
-                       {/*<Text numberOfLines={1} style={[styles.title, {flexWrap:'nowrap'}]}>{item.title}</Text>
-                       <Text numberOfLines={1} style={styles.author}>{item.author}</Text>*/} 
                       
                   </View>
                 </View>

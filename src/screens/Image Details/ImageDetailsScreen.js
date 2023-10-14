@@ -6,57 +6,50 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
+  TextInput,
+  Button
 } from "react-native";
 import React from "react";
-import { LeftArrow } from "../../constants/icon";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("screen").height;
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import FavouriteButton from "../../components/Home/FavouriteButton";
-import ScreenHeader from "../../components/Home/ScreenHeader";
+import FavouriteButton from "../../components/Shared/FavouriteButton";
+import ShareButton from "../../components/Shared/ShareButton";
+import BackButton from "../../navigation/Shared/BackButton";
+import NavigationHeader from "../../navigation/Shared/NavigationHeader";
+import AndroidSafeArea from "../../Android/AndroidSafeArea";
+import UserInfoImage from "./UserInfoImage";
 
-const ImageDetailsScreen = ({ navigation, route, active}) => {
+const ImageDetailsScreen = ({ navigation, route, active }) => {
   const insets = useSafeAreaInsets();
   const { imageDetail } = route.params;
+  
   return (
-    <SafeAreaView>
-            <View
-              style={{
-                flexDirection: "row",
-                marginHorizontal: "5%",
-                marginBottom: "2%"
-              }}
-            >
-              <TouchableOpacity onPress={navigation.goBack}>
-                {LeftArrow}
-              </TouchableOpacity>
-              <View style={{marginHorizontal: '3%'}}>
-                <Text style={styles.author}>{imageDetail.author}</Text>
-                <Text style={styles.title}>{imageDetail.title}</Text>
-              </View>
-            </View>
-            <View style={styles.line} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
+    <View style={{backgroundColor: 'white'}}>
+      <NavigationHeader navigation = {navigation} title={imageDetail.title} author={imageDetail.author}></NavigationHeader>
+      <View style={styles.line} />
+      <ScrollView automaticallyAdjustKeyboardInsets={true} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.imageBox}>
-            <View style={styles.imageContent} >
-              
+            <View style={styles.imageContent}>
               <Image source={imageDetail.image} style={[styles.image]} />
             </View>
-            <View style={{flexDirection: 'row', marginLeft: '8%'}}>
+            <View style={{ flexDirection: "row", marginLeft: "8%" }}>
               <FavouriteButton active={active}></FavouriteButton>
-            </View>     
+              <ShareButton></ShareButton>
             </View>
-            </View>
-            
-
+          </View>
+        </View>
+        <View style={styles.line} />
         <View
           style={{
             flex: 1,
             marginHorizontal: "8%",
             marginTop: "10%",
+            marginBottom: '4%'
           }}
         >
           <Text style={styles.author}>{imageDetail.author}</Text>
@@ -64,23 +57,59 @@ const ImageDetailsScreen = ({ navigation, route, active}) => {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: 'space-between',
               flex: 1,
               flexWrap: "wrap",
             }}
           >
-            <Text>{imageDetail.author}</Text>
-            <Text>{imageDetail.author}</Text>
-            <Text>{imageDetail.title}</Text>
-            <Text>{imageDetail.title}</Text>
-            <Text>{imageDetail.title}</Text>
-            <Text>{imageDetail.title}</Text>
-            <Text>{imageDetail.title}</Text>
-            <Text>{imageDetail.title}</Text>
-            
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+            <Text>hashtag</Text>
+          </View>
+		
+        </View>
+        <View style={styles.line} />
+        <View id="User Info" style = {styles.info}>
+          <View id = "User" style= {{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: '8%', marginVertical: '4%'}}>
+            <Text style = {{fontWeight: 'bold'}}>{imageDetail.author}</Text>
+            <TouchableOpacity><Text style = {{color: 'blue'}}>Follow</Text></TouchableOpacity>
+          </View>
+          <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <UserInfoImage></UserInfoImage>
           </View>
         </View>
+        <View style={[styles.line, {marginVertical: '4%'}]} />
+		<View id="Comment Section" style={styles.commentSection}>
+			<View id="Comment Input" style={styles.commentInput}>
+				<TextInput style={{fontSize: 16, paddingHorizontal: '5%', height: 40, backgroundColor: 'white', }} editable placeholder='Leave a Comment...'/>
+			</View>
+			<View id="Comments">
+				<View id='Comment 1' style = {styles.comment}>
+					<Text>This is comment 1</Text>
+					<View id="ReplyButton" style={styles.replyButton}>
+						<Button title="Reply"></Button>
+					</View>
+					
+				</View>
+				<View id="Comment 2" style = {styles.comment}>
+					<Text>This is comment 2</Text>
+					<View id="ReplyButton" style={styles.replyButton}>
+						<Button title="Reply"></Button>
+					</View>
+				</View>
+			</View>
+			<View id="Next Recommended">
+				<Text>This is the recommended section.</Text>
+			</View>
+		</View>
+
       </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -97,32 +126,37 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   image: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     maxHeight: windowHeight * 0.5,
     maxWidth: windowWidth,
     backgroundColor: "#ffffff",
     alignSelf: "center",
   },
-  favourite: {
-    position: "absolute",
-    flexDirection: "row",
-    flex: 2,
-    zIndex: 1,
-    marginTop: windowHeight * 0.6,
-    marginLeft: 30,
-  },
   line: {
-    borderBottomColor: "black",
+    borderBottomColor: "gray",
     borderBottomWidth: StyleSheet.hairlineWidth,
     flex: 2,
   },
-  author: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#000000",
-  },
   imageContent: {
     width: windowWidth,
-    height: windowHeight * 0.5
+    height: windowHeight * 0.5,
   },
+  commentSection: {
+	marginHorizontal: '8%',
+  },
+  commentInput: {
+	marginVertical: '2%',
+  borderColor: 'gray',
+  borderWidth: 1,
+  },
+  comment: {
+	marginVertical: '2%',
+	height: 80,
+  },
+  replyButton: {
+	alignSelf:'flex-start'
+  },
+  info: {
+    justifyContent: 'center',
+  }
 });

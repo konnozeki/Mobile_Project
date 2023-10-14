@@ -1,11 +1,11 @@
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import FavouriteButton from './FavouriteButton';
+import FavouriteButton from '../Shared/FavouriteButton';
 import { useNavigation } from '@react-navigation/native';
 import {SharedElement} from 'react-navigation-shared-element'
 const { width } = Dimensions.get('window');
 const IMAGE_WIDTH = 0.7 * width;
-const IMAGE_HEIGHT = 200;
+const IMAGE_HEIGHT = width * 0.55;
 const TopCarousel = ({list}) => {
   const navigation=useNavigation()
   return ( 
@@ -30,16 +30,21 @@ const TopCarousel = ({list}) => {
               
               <View style={styles.imageBox}>
                 <Image style={styles.image} source={item.image}/>
+                <View style={{position: 'absolute', bottom: 0, alignSelf: 'flex-end'}}>
+                        <FavouriteButton/>
+                </View>
+
+                
               </View>
               
               </SharedElement>
-              <View style={[styles.titleBox, styles.shadow]}>
+              <View style={[styles.titleBox]}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.author}>{item.author}</Text>
               </View>  
               
             </View>
-            <View style={{justifyContent: 'flex-end', position: 'absolute', alignSelf:'flex-end', marginTop: IMAGE_HEIGHT-32}}><FavouriteButton/></View>
+            
           </View> 
 
           </TouchableOpacity>

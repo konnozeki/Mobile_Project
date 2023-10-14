@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState} from "react";
-import IconTab from "../IconTab";
-import { AntDesign } from "@expo/vector-icons";
 import { Favourite } from "../../constants/icon";
 
 const FavouriteButton = ({style, active}) => {
@@ -14,7 +12,7 @@ const FavouriteButton = ({style, active}) => {
   }
   return (
     <>
-      <TouchableOpacity style={[{ backgroundColor: "transparent", padding: 4, }, style]} onPress={onPress}>
+      <TouchableOpacity style={[{backgroundColor: "white", padding: 4, width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center'  }, style]} onPress={onPress}>
         {active ? Favourite["filled"] : Favourite["notFilled"]}
       </TouchableOpacity>
     </>

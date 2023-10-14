@@ -41,10 +41,12 @@ const ImageList = ({ list }) => {
                     </View>
                   </View>
                 </SharedElement>
-                  
-                      
-                     <Text numberOfLines={1} style={[styles.title, {flexWrap:'nowrap'}]}>{item.title}</Text>
-                     <Text numberOfLines={1} style={styles.author}>{item.author}</Text> 
+                      <View style = {{marginHorizontal: '8%'}}>
+                        <Text numberOfLines={1} style={[styles.title, {flexWrap:'nowrap'}]}>{item.title}</Text>
+                        <Text numberOfLines={1} style={styles.author}>{item.author}</Text> 
+
+                      </View>
+                     
                     
                 </View>
               </View>
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
+    marginTop: width * 0.0025
   },
   cardContainer: {
     marginLeft: width * 0.005,

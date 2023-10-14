@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import ScrollTab from '../Shared/ScrollTab'
+import Tab from '../Shared/Tab'
 import NewspaperList from "./NewspaperList"
+import { Camera, Illust } from '../../constants/icon'
+import HeaderNavigationBar from '../Shared/HeaderNavigationBar'
 
 const NewsContent = () => {
   return (
     <View>
-      <ScrollTab item={tabs}></ScrollTab>
+      <HeaderNavigationBar ></HeaderNavigationBar>
+      <Tab item={tabs}></Tab>
     </View>
   )
 }
@@ -18,10 +21,12 @@ const styles = StyleSheet.create({})
 const tabs = [
     {
         title: 'Illust',
-        content: <NewspaperList></NewspaperList>
+        content: <NewspaperList></NewspaperList>,
+        icon: Illust
     },
     {
         title: 'Photograph',
-        content: <Text>Photograph</Text>
+        content: <Text>Photograph</Text>,
+        icon: Camera
     },
 ]

@@ -32,3 +32,22 @@ export const Article = {
     active: <Ionicons name="newspaper-outline" size={24} color="white" />,
     inactive: <Ionicons name="newspaper-outline" size={24} color="gray" />
 }
+
+export const Camera = {
+    active: <AntDesign name="camera" size={24} color="white" />,
+    inactive: <AntDesign name="camera" size={24} color="gray" />
+}
+
+export const Illust = {
+    active : <AntDesign name="picture" size={24} color="white" />,
+    inactive: <AntDesign name="picture" size={24} color="gray" />
+}
+export const User = {
+    active: <AntDesign name="user" size={24} color="white" />,
+    inactive: <AntDesign name="user" size={24} color="gray" />
+}
+
+export const Share = {
+    active: <AntDesign name="sharealt" size={24} color="white" />,
+    inactive: <AntDesign name="sharealt" size={24} color="black" />
+}

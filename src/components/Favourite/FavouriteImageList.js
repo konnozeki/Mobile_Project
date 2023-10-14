@@ -11,6 +11,7 @@ import {
   import React from "react";
   import { useNavigation } from "@react-navigation/native";
   import {SharedElement} from "react-navigation-shared-element"
+import FavouriteButton from "../Shared/FavouriteButton";
 
 
   const { width } = Dimensions.get("window");
@@ -39,7 +40,9 @@ import {
                       <View style={{justifyContent: 'flex-end', position: 'absolute', alignSelf:'flex-end', marginBottom: '100%'}}>
                       </View>
                     </View>
-
+                    <View style={{position: 'absolute', bottom: 0, alignSelf: 'flex-end'}}>
+                        <FavouriteButton/>
+                    </View>
                   </SharedElement>
                     
                         

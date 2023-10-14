@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ExploreImageList from "./ExploreImageList"
 import Tab from '../Shared/Tab';
+import { Camera, Illust, User } from '../../constants/icon';
 const ExploreContent = () => {
   return (
     <View>
@@ -17,15 +18,18 @@ const styles = StyleSheet.create({})
 const tabs = [
     {
         title: 'Illust',
-        content: <ExploreImageList/>
+        content: <ExploreImageList/>,
+        icon: Illust
 
     },
     {
-        title: 'Photograph',
-        content: <Text>Test</Text>
+        title: 'Photo',
+        content: <Text>Test</Text>,
+        icon: Camera
     },
     {
         title: 'User',
-        content: <ExploreImageList/>
+        content: <ExploreImageList/>,
+        icon: User
     },
 ]

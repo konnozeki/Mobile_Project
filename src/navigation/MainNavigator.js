@@ -1,24 +1,22 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
-import ImageDetailsScreen from '../screens/Image Details/ImageDetailsScreen';
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const Stack = createSharedElementStackNavigator();
+
+
+
+
+
 
 const MainNavigator = () => {
-    return <NavigationContainer>
-        <Stack.Navigator>
-
-        <Stack.Screen name='root' component={TabNavigator} options={{headerShown: false}} />
-            <Stack.Screen name='ImageDetails' component={ImageDetailsScreen} options={{
-                headerShown: false,
-
-                }}/>
-            
-       
-        </Stack.Navigator>
-    </NavigationContainer>
+    return (
+    <SafeAreaProvider>
+        <NavigationContainer>
+            <TabNavigator/>
+        </NavigationContainer>
+    </SafeAreaProvider>
+    )
 }
 
 export default MainNavigator;
