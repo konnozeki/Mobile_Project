@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -48,3 +48,9 @@ export const spacing = {
   l: 24,
   xl: 40,
 };
+
+export const line = {
+    borderBottomColor: "gray",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flex: 2,
+}

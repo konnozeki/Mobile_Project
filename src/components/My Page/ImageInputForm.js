@@ -1,0 +1,207 @@
+import React, { useState, useEffect } from 'react';
+import { Button, Image, View, Platform, SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Dimensions, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import AndroidSafeArea from '../../Android/AndroidSafeArea';
+import { Dropdown } from 'react-native-element-dropdown';
+import NavigationHeader from '../../navigation/Shared/NavigationHeader';
+import { useNavigation } from '@react-navigation/native';
+
+
+
+const height = Dimensions.get('screen').height
+const TYPE = [
+  {
+    label: 'Illustration', 
+    value: 'Illust'
+  },
+  {
+    label: 'Photograph', 
+    value: 'Photo'
+  },
+]
+
+const AGE_RESTRICTION = [
+  {
+    label: 'All Age',
+    value: 'All'
+  },
+  {
+    label: '18+',
+    value: '18+'
+  }
+]
+
+
+
+function getFileExtensionFromUri(uri) {
+  const lastDotIndex = uri.lastIndexOf('.');
+  if (lastDotIndex === -1) {
+      return null;
+  }
+  return uri.slice(lastDotIndex + 1).toLowerCase();
+}
+
+
+export default function ImageInputForm({route}) {
+  const [image, setImage] = useState(null);
+  const {user} = route.params 
+
+
+  
+
+
+  const handleSubmit = () => {
+    const postData = new FormData();
+
+    postData.append('release_date', '2023-11-22');
+    postData.append('content', content);
+    postData.append('type', type);
+    postData.append('contributor', user.id); 
+    postData.append('number_of_likes', '0');
+    postData.append('title', title);
+    postData.append('age_restriction', age);
+
+    // Append the image file to the FormData object
+    // 'picture' should match the name expected by your Django backend
+    postData.append('picture', {
+      uri: image,
+      type: 'image/*',  // Adjust the type according to your image
+      name: title + `.${getFileExtensionFromUri(image)}`,
+    });
+
+    // Making a POST request using Fetch
+    fetch('http://192.168.0.105:8000/api/post/', {
+      method: 'POST',
+      body: postData,
+      
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', JSON.stringify(data));
+        // Handle success response here
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle error here
+      });
+      
+  }
+
+
+
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      aspect: [4, 3],
+      quality: 1,
+      allowsMultipleSelection: false,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+  const navigation = useNavigation()
+  const [title, setTitle] = useState(null)
+  const [date, setDate] = useState(null)
+  const [age, setAge] = useState(null)
+  const [content, setContent] = useState(null)
+  const [type, setType] = useState(null);
+  return (
+    <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
+      <View style={{backgroundColor:"white"}}>
+        <NavigationHeader navigation={navigation}></NavigationHeader>
+      </View>
+      <ScrollView automaticallyAdjustKeyboardInsets={true} showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: 'white' }}>
+        
+        <View style={styles.line}></View>
+        <View style={{backgroundColor:'black'}}>
+          {image && <Image source={{ uri: image }} style={{ width: 350, height: 350, alignSelf: 'center'}} />}
+        </View>
+
+        <View style = {{alignSelf: 'center', justifyContent: 'center', height: height * 0.1}}>
+          <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={pickImage}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Choose Image</Text>
+          </TouchableOpacity>
+        </View>
+
+        
+
+        <View style={{marginHorizontal: '8%', borderWidth: 1, padding: 5}}>
+      <Dropdown
+        data={TYPE}
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder="Image Type"
+        value={type}
+        onChange={item => {
+          setType(item.value);
+        }}
+       
+      />
+    </View>
+          <View style={{marginVertical: '4%'}}>
+            <View style={styles.line}></View>
+            <View>
+              <View style={{backgroundColor:"#f5f5f5", paddingVertical: '2%'}}>
+                <Text style={{marginHorizontal: '8%', fontSize: 18}}>Title</Text>
+              </View>
+              <View style={styles.line}></View>
+              <View style={{marginHorizontal: '8%', marginVertical: '4%'}}>
+                <TextInput onChangeText={(title) => setTitle(title)} value={title} editable style={{justifyContent:'center'}} placeholder='Write the title here...'></TextInput>
+              </View>
+            </View>
+            <View style={styles.line}></View>
+
+            <View>
+              <View style={{backgroundColor:"#f5f5f5", paddingVertical: '2%'}}>
+                <Text style={{marginHorizontal: '8%', fontSize: 18}}>Description</Text>
+              </View>
+              <View style={styles.line}></View>
+              <View style={{marginHorizontal: '8%', marginVertical: '4%', height:100}}>
+                <TextInput onChangeText={(content) => setContent(content)} value={content} editable style={{justifyContent:'center'}} placeholder='Write the description here...'></TextInput>
+              </View>
+            </View>
+            <View style={styles.line}></View>
+
+          </View>
+          <View style={{marginHorizontal: '8%', borderWidth: 1, padding: 5}}>
+          <Dropdown
+        data={AGE_RESTRICTION}
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder="Restriction Age"
+        value={age}
+        onChange={item => {
+          setAge(item.value);
+        }}
+       
+      />
+      </View>
+          <View style = {{alignSelf: 'center', justifyContent: 'center', height: height * 0.1}}>
+            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={handleSubmit}>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>Post</Text>
+            </TouchableOpacity>
+          </View>
+        
+      </ScrollView>
+    </SafeAreaView>
+    
+  );
+
+  
+}
+
+const styles = StyleSheet.create({
+  line: {
+    borderBottomColor: "gray",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  }
+})
+

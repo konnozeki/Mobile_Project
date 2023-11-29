@@ -7,13 +7,15 @@ import ExploreImageList from "./ExploreImageList"
 import Tab from '../Shared/Tab';
 
 
-const ExploreInput = () => {
+const ExploreInput = ({icon = true, content = ""}) => {
     return (
         <View style={{marginHorizontal: '3%', flexDirection: 'row', marginVertical: '3%' }}>
             <View style={{justifyContent: 'center',  backgroundColor: 'white'}}>
-            <Image source={require('./../../../assets/search.png')} style={{width: 16, height: 16}}></Image>
+            {icon ? <Image source={require('./../../../assets/search.png')} style={{width: 16, height: 16}}></Image> : <View></View>}
             </View>
-            <TextInput style={{fontSize: 16, paddingHorizontal: '5%', width: width*0.90, backgroundColor: 'white', }} editable placeholder='Search anything...'/>
+            <TextInput style={{fontSize: 16, paddingHorizontal: '5%', width: width*0.90, backgroundColor: 'white', }} editable placeholder='Search anything...'>
+                <Text>{content}</Text>
+            </TextInput>
         </View>   
     )
 }

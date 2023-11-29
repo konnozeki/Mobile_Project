@@ -3,11 +3,11 @@ import React from 'react'
 import FavouriteContent from '../../components/Favourite/FavouriteContent'
 import AndroidSafeArea from '../../Android/AndroidSafeArea'
 
-const FavouriteScreen = () => {
+const FavouriteScreen = ({route}) => {
   return (
     <SafeAreaView style = {AndroidSafeArea.AndroidSafeArea}>
           <View style = {{backgroundColor: 'white'}}>
-            <FavouriteContent></FavouriteContent>
+            <FavouriteContent route={route}></FavouriteContent>
           </View>
     </SafeAreaView>
 

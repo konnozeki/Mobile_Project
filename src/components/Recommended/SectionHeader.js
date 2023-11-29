@@ -5,7 +5,7 @@ const SectionHeader = ({title, onPress, buttonTitle = 'Button'}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Button title={buttonTitle}></Button>
+      {/*<Button title={buttonTitle}></Button>*/}
     </View>
   )
 }
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginHorizontal: '5%',
-      marginVertical: '2%'
+      marginHorizontal: '8%',
+      marginVertical: '4%'
     },
     title: {
       fontSize: 18,

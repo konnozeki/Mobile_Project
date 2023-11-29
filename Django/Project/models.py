@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
 GENDER_CHOICES = (
         ('M', 'Nam'),
         ('F', 'Nữ'),
@@ -11,54 +12,101 @@ AGE_RESTRICTION = (
     ('18+', 18)
 )
 TYPE = (
-        ("Photog", "Ảnh chụp"), ("Illust", "Tranh vẽ")
+        ("Photo", "Photography"), ("Illust", "Illustration")
     )
-class User(models.Model):
-    username = models.CharField(max_length=30, null=False, primary_key=True, validators=[MinLengthValidator(8, 'Tên người dùng ít nhất có 8 ký tự')])
-    password = models.CharField(max_length=30, validators=[MinLengthValidator(8, 'Mật khẩu ít nhất có 8 ký tự')], null=False)
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False, primary_key=True)
     name = models.CharField(max_length=30, null=False)
-    email = models.EmailField(max_length=254, null=False)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=False, default='M')
     avatar = models.ImageField(blank=True, upload_to ='uploads/')
     #def user_directory_path(instance, filename):
         #return 'Avatar/{0}/{1}'.format(instance.username, filename)
     #avatar = models.ImageField(height_field=200, width_field=200, upload_to=user_directory_path, default=)
 
-class Post(models.Model):
-    id = models.IntegerField(null=False, primary_key=True)
-    release_date = models.DateField(null=False)
-    content = models.TextField()
-    contributor = models.ForeignKey(User, on_delete=models.CASCADE)
-    number_of_likes = models.IntegerField(null=False, default=0)
-    title = models.CharField(max_length=100)
-    age_restriction = models.CharField(max_length=3, choices=AGE_RESTRICTION, null=False)
+
+
 
 class Type(models.Model):
     
     type = models.CharField(max_length=6, choices=TYPE, null=False, primary_key=True)
     description = models.TextField()
 
-class Picture(models.Model):
-    id = models.IntegerField(null=False, primary_key=True)
+
+def post_image_path(instance, filename):
+    user_id = instance.contributor.id
+    path = f'user/{user_id}/post/{filename}'
+    return path
+
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from firebase_admin import storage
+firebase_storage = storage.bucket()
+
+def save_image_to_firebase(instance):
+    # Open the image file and read its content
+    with open(f"user/{instance.contributor.id}/post/{instance.picture.name}", 'rb') as file:
+        file_content = file.read()
+        # Save the content to Firebase Storage
+    destination_path = f"user/{instance.contributor.id}/post/{instance.picture.name}"
+    firebase_storage_path = default_storage.save(destination_path, ContentFile(file_content))
+
+        # Get the public URL of the saved file
+    public_url = default_storage.url(firebase_storage_path)
+    print(firebase_storage_path)
+
+    return public_url
+
+class Post(models.Model):
     release_date = models.DateField(null=False)
+    content = models.TextField()
     contributor = models.ForeignKey(User, on_delete=models.CASCADE)
-    picture_type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    number_of_likes = models.IntegerField(null=False, default=0)
+    title = models.CharField(max_length=100)
+    age_restriction = models.CharField(max_length=3, choices=AGE_RESTRICTION, null=False)
+    picture = models.ImageField(null=False, blank=True, upload_to=post_image_path)
+    type = models.CharField(max_length=6, choices=TYPE, null=False, default='Illust')
+    def save_image_to_firebase(self):
+        if self.picture:
+            # Open the image file and read its content
+            with open(f"{self.picture.name}", 'rb') as file:
+                file_content = file.read()
+
+            # Save the content to Firebase Storage
+            destination_path = f"{self.picture.name}"
+            blob = firebase_storage.blob(destination_path)
+            blob.upload_from_string(file_content, content_type='image/jpeg')  # Adjust content_type based on your file type
+
+            # Get the public URL of the saved file
+            public_url = blob.public_url
+            print(public_url)
+
+            return public_url
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.picture:
+            # Save the image to Firebase Storage before saving the model
+            firebase_url = self.save_image_to_firebase()
+
+            # Set the image field to the Firebase Storage URL
+            self.picture.name = firebase_url
+
+            super().save()
+
+
 
 class Article(models.Model):
-    id = models.IntegerField(null=False, primary_key=True)
     release_date = models.DateField(null=False)
     article_type = models.CharField(max_length=6, null=False, choices= TYPE)
     content = models.TextField()
     title = models.CharField(max_length=1000)
     age_restriction = models.CharField(max_length=3, choices=AGE_RESTRICTION, null=False)
+    posts = models.ManyToManyField(Post)
 
 
 class Comment(models.Model):
-    comment_id = models.IntegerField(default=0, primary_key=True)
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     previous_comment = models.ForeignKey('self', on_delete=models.CASCADE)
     number_of_likes = models.IntegerField(default=0, null=False)
     content = models.TextField(null=False)
-
-

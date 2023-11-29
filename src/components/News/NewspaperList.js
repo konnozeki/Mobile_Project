@@ -11,14 +11,14 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import {SharedElement} from "react-navigation-shared-element"
-
+import { IMAGE_LIST } from "../../constants/List";
 
 const { width } = Dimensions.get("window");
-const BOX_HEIGHT = width * 0.99;
+const BOX_HEIGHT = width * 0.8;
 const IMAGE_WIDTH = width * 0.99 ;
 const IMAGE_HEIGHT = width * 0.60;
 
-const ImageList = ({ list }) => {
+const NewsImageList = ({ list }) => {
   const navigation = useNavigation();
 
   return (
@@ -27,14 +27,13 @@ const ImageList = ({ list }) => {
         return (
           <View style={[styles.cardContainer]} key={item.id}>
           <TouchableOpacity style={styles.container} key={item.id} onPress={() => {
-              navigation.navigate("ImageDetails", {
-                imageDetail: item,
+              navigation.navigate("ArticleDetails", {
               });
           }}>
             <View>
 
                 <View style={[styles.card, styles.shadowLight]}>
-                <SharedElement id={`ImageDetails.${item.id}.image`}>
+                <SharedElement id={`ArticleDetail.${item.id}.image`}>
                   <View style={styles.imageBox}>
                     <Image style={styles.image} source={item.image} />
                     <View style={{justifyContent: 'flex-end', position: 'absolute', alignSelf:'flex-end', marginBottom: '100%'}}>
@@ -59,13 +58,14 @@ const ImageList = ({ list }) => {
   );
 };
 
-export default ImageList;
+export default NewsImageList;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: width * 0.0025
+    marginTop: width * 0.0025,
+    marginBottom: '11%'
   },
   cardContainer: {
     marginLeft: width * 0.005,
@@ -112,69 +112,3 @@ const styles = StyleSheet.create({
     },
   },
 });
-
-const IMAGE_LIST = [
-  {
-    id: 1,
-    title: 'Sleeping Day Neeeeee',
-    image: require('./../../../assets/images/welcome1.jpg'),
-    author: 'Yuuki',
-    hashtag: '#Yuuki'
-},
-{
-    id: 2,
-    title: 'Mlem desu',
-    image: require('./../../../assets/images/welcome2.jpg'),
-    author: 'Aiko',
-    hashtag: '#Yuuki'
-},
-{
-    id: 3,
-    title: 'Mlem desu ne',
-    image: require('./../../../assets/images/welcome3.jpg'),
-    author: 'Aiko-chi',
-    hashtag: '#Yuuki'
-},
-{
-    id: 4,
-    title: 'Mlem desu neee',
-    image: require('./../../../assets/images/welcome4.jpg'),
-    author: 'Aiko chan',
-    hashtag: '#Yuuki'
-},
-{
-  id: 5,
-  title: 'Mlem desu ne',
-  image: require('./../../../assets/images/welcome3.jpg'),
-  author: 'Aiko-chi',
-  hashtag: '#Yuuki'
-},
-{
-  id: 6,
-  title: 'Mlem desu neee',
-  image: require('./../../../assets/images/welcome4.jpg'),
-  author: 'Aiko chan',
-  hashtag: '#Yuuki'
-},
-{
-  id: 7,
-  title: 'Mlem desu ne',
-  image: require('./../../../assets/images/welcome3.jpg'),
-  author: 'Aiko-chi',
-  hashtag: '#Yuuki'
-},
-{
-  id: 8,
-  title: 'Mlem desu neee',
-  image: require('./../../../assets/images/welcome4.jpg'),
-  author: 'Aiko chan',
-  hashtag: '#Yuuki'
-},
-{
-  id: 9,
-  title: 'Mlem desu ne',
-  image: require('./../../../assets/images/welcome3.jpg'),
-  author: 'Aiko-chi',
-  hashtag: '#Yuuki'
-},
-]

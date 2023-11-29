@@ -1,19 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import TopCarousel from './TopCarousel';
+import TopCarousel from '../Shared/TopCarousel';
 import SectionHeader from './SectionHeader';
-import ImageList from './ImageList';
-import { FAVOURITE_LIST, IMAGE_LIST } from '../../constants/List';
+import { FAVOURITE_LIST} from '../../constants/List';
+import ImageList from '../Shared/ImageList';
 
 
 
-const RecommendedTab = ({item}) => {
-    const insets = useSafeAreaInsets();
-
+const RecommendedTab = ({route, item}) => {
     const [index, setIndex] = useState(0);
   return (
-    <View>
+    <View style={{marginBottom:'23.6%'}}>
             <View style={{flexDirection: 'row',paddingHorizontal: '20%', justifyContent: 'space-between', backgroundColor: '#242526'}}>
                 {item.map((id, i) => {
                     const active = index === i
@@ -26,9 +23,9 @@ const RecommendedTab = ({item}) => {
                 
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TopCarousel list={FAVOURITE_LIST}></TopCarousel>
+                <TopCarousel title={item[index].title} list={FAVOURITE_LIST}></TopCarousel>
                 <SectionHeader title={"Recommended"}></SectionHeader>
-                <ImageList list={IMAGE_LIST}/>
+                <ImageList route={route}></ImageList>
             </ScrollView>
     </View>
     

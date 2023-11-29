@@ -8,7 +8,8 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import {Home, Search, Favourite , News, Article, User} from "./../constants/icon"
 import RecommendedStack from "./Recommended/RecommendedStack";
 import ExploreStack from "./Explore/ExploreStack";
-import MyPageScreen from "../screens/My Page/MyPageScreen";
+import ArticleStack from "./Article/ArticleStack";
+import MyPageStack from "./My Page/MyPageStack"
 const windowHeight = Dimensions.get("screen").height;
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +26,7 @@ const tabs = [
     icon: Search
   },
   {
-    screen: NewsScreen,
+    screen: ArticleStack,
     name: "News",
     icon: News
   },
@@ -37,19 +38,19 @@ const tabs = [
     icon: Favourite
   },
   {
-    screen: MyPageScreen,
+    screen: MyPageStack,
     name: "My Page",
     icon: User
   },
   
 ];
-const Stack = createSharedElementStackNavigator();
-const TabNavigator = () => {
-  const insets = useSafeAreaInsets()
+
+const TabNavigator = ({route}) => {
+  const {user} = route.params
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: 'white', tabBarStyle: {backgroundColor: '#242526'}}}
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: 'white', tabBarStyle: {backgroundColor: '#242526', paddingBottom: '8%'}}}
     >
       {tabs.map(({screen, name, icon }) => {
         return (
@@ -57,15 +58,17 @@ const TabNavigator = () => {
             key={name}
             name={name}
             component={screen}
+            initialParams={{user: user}}
             options={{
               tabBarIcon: ({ focused }) => {
                 return focused ? icon['active'] : icon['inactive']
               },
+              
             }}
           />
         );
       })}
-           
+            
     </Tab.Navigator>
   );
 };

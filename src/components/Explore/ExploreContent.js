@@ -5,7 +5,7 @@ import Tab from '../Shared/Tab';
 import { Camera, Illust, User } from '../../constants/icon';
 const ExploreContent = () => {
   return (
-    <View>
+    <View >
             <Tab item={tabs}></Tab>
     </View>
   )

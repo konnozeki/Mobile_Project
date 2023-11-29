@@ -28,8 +28,8 @@ const SearchImage = () => {
             <TouchableOpacity
               key={item.id}
               onPress={() => {
-                navigation.navigate("ImageDetails", {
-                  imageDetail: item,
+                navigation.navigate("ExploreDetail", {
+                  hashtag: item.hashtag,
                 });
               }}
             >
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
+    marginBottom: '31.3%'
   },
   header: {
     alignItems: "center",
@@ -137,62 +138,62 @@ const IMAGE_LIST = [
     title: 'Sleeping Day Neeeeee',
     image: require('./../../../assets/images/welcome1.jpg'),
     author: 'Yuuki',
-    hashtag: '#Yuuki'
+    hashtag: '#Illustration'
 },
 {
     id: 2,
     title: 'Mlem desu',
     image: require('./../../../assets/images/welcome2.jpg'),
     author: 'Aiko',
-    hashtag: '#Yuuki'
+    hashtag: '#Illustration2'
 },
 {
     id: 3,
     title: 'Mlem desu ne',
     image: require('./../../../assets/images/welcome3.jpg'),
     author: 'Aiko-chi',
-    hashtag: '#Yuuki'
+    hashtag: '#Illustration2'
 },
 {
     id: 4,
     title: 'Mlem desu neee',
     image: require('./../../../assets/images/welcome4.jpg'),
     author: 'Aiko chan',
-    hashtag: '#Yuuki'
+    hashtag: '#Illustration3'
 },
 {
   id: 5,
   title: 'Mlem desu ne',
   image: require('./../../../assets/images/welcome3.jpg'),
   author: 'Aiko-chi',
-  hashtag: '#Yuuki'
+  hashtag: '#Illustration4'
 },
 {
   id: 6,
   title: 'Mlem desu neee',
   image: require('./../../../assets/images/welcome4.jpg'),
   author: 'Aiko chan',
-  hashtag: '#Yuuki'
+  hashtag: '#Illustration5'
 },
 {
   id: 7,
   title: 'Mlem desu ne',
   image: require('./../../../assets/images/welcome3.jpg'),
   author: 'Aiko-chi',
-  hashtag: '#Yuuki'
+  hashtag: '#Illustration6'
 },
 {
   id: 8,
   title: 'Mlem desu neee',
   image: require('./../../../assets/images/welcome4.jpg'),
   author: 'Aiko chan',
-  hashtag: '#Yuuki'
+  hashtag: '#Illustration7'
 },
 {
   id: 9,
   title: 'Mlem desu ne',
   image: require('./../../../assets/images/welcome3.jpg'),
   author: 'Aiko-chi',
-  hashtag: '#Yuuki'
+  hashtag: '#Illustration8'
 },
 ]

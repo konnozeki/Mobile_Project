@@ -1,0 +1,226 @@
+import {
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  TextInput,
+  Button,
+  Modal,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import ImageViewer from "react-native-image-zoom-viewer";
+
+import NavigationHeader from "../../navigation/Shared/NavigationHeader";
+import AndroidSafeArea from "../../Android/AndroidSafeArea";
+import UserInfoImage from "./UserInfoImage";
+import ImageList from "../Shared/ImageList";
+import FavouriteButton from "../Shared/FavouriteButton";
+const { width } = Dimensions.get("window");
+
+
+
+const ImageDetail = ({ navigation, route, active }) => {
+  const [visible, setVisible] = useState(false);
+  const { user, imageDetail } = route.params;
+  const [author, setAuthor] = useState('')
+
+  useEffect(() => {
+    fetch(`http://192.168.0.105:8000/api/user/${imageDetail.contributor}`, { method: "GET" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setAuthor(data.username)
+    })
+  })
+
+  
+  return (
+    <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
+      <View style={{ backgroundColor: "white", marginBottom: "12%" }}>
+        <NavigationHeader
+          navigation={navigation}
+          title={imageDetail.title}
+          author={author}
+        ></NavigationHeader>
+        <View style={styles.line} />
+        <ScrollView
+          automaticallyAdjustKeyboardInsets={true}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() => {
+                setVisible(true);
+              }}
+            >
+              <Image
+                style={{ width: width, height: width * 1.5 }}
+                source={imageDetail.image}
+              />
+              <Modal
+                visible={visible}
+                transparent={true}
+                onRequestClose={() => {
+                  this.setVisible(false);
+                }}
+              >
+                <ImageViewer
+                  enableSwipeDown={true}
+                  onSwipeDown={() => {
+                    setVisible(false);
+                  }}
+                  imageUrls={[{ url: imageDetail.image.uri }]}
+                ></ImageViewer>
+              </Modal>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.line} />
+          <View style={{ marginHorizontal: "8%" }}>
+            <FavouriteButton></FavouriteButton>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              marginHorizontal: "8%",
+              marginBottom: "4%",
+            }}
+          >
+            <Text>
+              {imageDetail.content == "null"
+                ? "No description"
+                : imageDetail.content}
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                flex: 1,
+                flexWrap: "wrap",
+              }}
+            >
+              <Text style={{ fontStyle: "italic" }}>
+                This section declares the hashtag
+              </Text>
+            </View>
+          </View>
+          <View style={styles.line} />
+          <View id="User Info" style={styles.info}>
+            <View
+              id="User"
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginHorizontal: "8%",
+                marginVertical: "4%",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.push("UserDetails", { author: imageDetail.contributor })
+                }
+              >
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                  {author}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={{ color: "blue", fontSize: 20 }}>Follow</Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <UserInfoImage author={imageDetail.contributor} noFavourite={false}></UserInfoImage>
+            </View>
+          </View>
+          <View style={[styles.line, { marginVertical: "4%" }]} />
+          <View id="Comment Section" style={styles.commentSection}>
+            <View id="Comment Input" style={styles.commentInput}>
+              <TextInput
+                style={{
+                  fontSize: 16,
+                  paddingHorizontal: "5%",
+                  height: 40,
+                  backgroundColor: "white",
+                }}
+                editable
+                placeholder="Leave a Comment..."
+              />
+            </View>
+            <View id="Comments">
+              <View id="Comment 1" style={styles.comment}>
+                <Text>This is comment 1</Text>
+                <View id="ReplyButton" style={styles.replyButton}>
+                  <Button title="Reply"></Button>
+                </View>
+              </View>
+              <View id="Comment 2" style={styles.comment}>
+                <Text>This is comment 2</Text>
+                <View id="ReplyButton" style={styles.replyButton}>
+                  <Button title="Reply"></Button>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View id="Next Recommended">
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+                marginHorizontal: "8%",
+                marginBottom: "4%",
+              }}
+            >
+              Related Works
+            </Text>
+            <ImageList></ImageList>
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default ImageDetail;
+const styles = StyleSheet.create({
+  image: {
+    resizeMode: "contain",
+    backgroundColor: "#ffffff",
+  },
+  line: {
+    borderBottomColor: "gray",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flex: 2,
+  },
+  imageContent: {
+    justifyContent: "center",
+    width: "100%",
+  },
+  commentSection: {
+    marginHorizontal: "8%",
+  },
+  commentInput: {
+    marginVertical: "2%",
+    borderColor: "gray",
+    borderWidth: 1,
+  },
+  comment: {
+    marginVertical: "2%",
+    height: 80,
+  },
+  replyButton: {
+    alignSelf: "flex-start",
+  },
+  info: {
+    justifyContent: "center",
+  },
+});
