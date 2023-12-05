@@ -11,6 +11,20 @@ state = {modalVisible:false}
 
 const UserDetail = ({navigation, route}) => {
     const {user, author} = route.params
+    const [Author, setAuthor] = useState('')
+    if (author !== user.id) {
+        useEffect(()=>{fetch(`http://192.168.0.105:8000/api/user/${author}`, { method: "GET" })
+        .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+        })
+        .then((data) => {
+            setAuthor(data)
+        })
+    }, [])
+    }
     const [visible, setVisible] = useState(false)
     const [username, setUsername] = useState('')
     
@@ -54,23 +68,14 @@ const UserDetail = ({navigation, route}) => {
             </View>
             <View id = "Submitted">
                 <View style = {{marginHorizontal: '4%', marginVertical: '4%', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Submitted Illust/Photo</Text>
-                    <TouchableOpacity><Text style={{fontSize: 20}}>All</Text></TouchableOpacity>
+                    <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Submitted Posts</Text>
+                    <TouchableOpacity onPress={()=>{navigation.navigate('SubmittedScreen', {user: (user.id == author? user: Author)})}}><Text style={{fontSize: 20}}>All</Text></TouchableOpacity>
                 </View>
                 <View style={{flexDirection:'row'}}>
                     <UserInfoImage author={author} noFavourite={true}></UserInfoImage>
                 </View>
             </View>
             
-            <View id = "Favourite">
-                <View style = {{marginHorizontal: '4%', marginVertical: '4%', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Favourite Illust/Photo</Text>
-                    <TouchableOpacity><Text style={{fontSize: 20}}>All</Text></TouchableOpacity>
-                </View>
-                <View style={{flexDirection:'row'}}>
-                    <UserInfoImage author={author} noFavourite={true}></UserInfoImage>
-                </View>
-            </View>
         </ScrollView>
     </View>
     </SafeAreaView>

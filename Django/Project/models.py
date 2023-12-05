@@ -1,4 +1,5 @@
 
+from collections.abc import Iterable
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import User
@@ -95,14 +96,6 @@ class Post(models.Model):
 
 
 
-class Article(models.Model):
-    release_date = models.DateField(null=False)
-    article_type = models.CharField(max_length=6, null=False, choices= TYPE)
-    content = models.TextField()
-    title = models.CharField(max_length=1000)
-    age_restriction = models.CharField(max_length=3, choices=AGE_RESTRICTION, null=False)
-    posts = models.ManyToManyField(Post)
-
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -110,3 +103,13 @@ class Comment(models.Model):
     previous_comment = models.ForeignKey('self', on_delete=models.CASCADE)
     number_of_likes = models.IntegerField(default=0, null=False)
     content = models.TextField(null=False)
+
+class FavouritePost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    contributor = models.IntegerField(null=True)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.post and not self.contributor:
+            self.contributor = self.post.contributor.id
+            super().save()

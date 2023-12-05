@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Project.models import UserProfile, Post, Type, Article, Comment, User
+from Project.models import *
 from django.contrib.auth import authenticate
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -41,10 +41,7 @@ class TypeSerializer(serializers.ModelSerializer):
         model = Type
         fields = ['id', 'type', 'description']
 
-class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = ['id', 'title', 'release_date', 'article_type', 'content', 'age_restriction', 'posts']
+
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,3 +55,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'release_date', 'content','type', 'contributor', 'number_of_likes', 'age_restriction', 'picture']
           
 
+class FavouritePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavouritePost
+        fields = ['id', 'user', 'post', 'contributor']

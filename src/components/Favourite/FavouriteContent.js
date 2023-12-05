@@ -3,18 +3,22 @@ import React from 'react'
 import Tab from '../Shared/Tab'
 
 import { Camera, Illust, User } from '../../constants/icon'
-import ImageList from '../Shared/ImageList'
+import { useNavigation } from '@react-navigation/native'
+import FavouriteImageList from './FavouriteImageList'
+import NavigationHeader from '../../navigation/Shared/NavigationHeader'
 
 const FavouriteContent = ({route}) => {
+  const {user} = route.params
+  const navigation = useNavigation()
   const tabs = [
     {
         title: 'Illust',
-        content: <ImageList route={route}></ImageList>,
+        content: <FavouriteImageList type={"illust"} user={user}></FavouriteImageList>,
         icon: Illust
     },
     {
         title: 'Photo',
-        content: <Text>Photo</Text>,
+        content: <FavouriteImageList type={"photo"} user={user}></FavouriteImageList>,
         icon: Camera
     },
     {
@@ -24,7 +28,12 @@ const FavouriteContent = ({route}) => {
     },
 ]
   return (
-    <Tab item={tabs}></Tab>
+    <View style={{backgroundColor: 'white'}}>
+        <NavigationHeader navigation={navigation}></NavigationHeader>
+        <Tab item={tabs}></Tab>
+
+    </View>
+
   )
 }
 

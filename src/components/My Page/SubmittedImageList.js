@@ -14,14 +14,14 @@ const { width } = Dimensions.get("window");
 const IMAGE_WIDTH = (width * 0.985) / 2;
 const IMAGE_HEIGHT = (width * 0.985) / 2;
 
-const SubmittedImageList = ({ route }, favourite = false) => {
+const SubmittedImageList = ({ route, type }) => {
   const navigation = useNavigation();
   const { user } = route.params;
 
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://192.168.0.105:8000/api/post/${user.id}`, { method: "GET" })
+    fetch(`http://192.168.0.105:8000/api/post/${type}/user/${user.id}`, { method: "GET" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -29,6 +29,8 @@ const SubmittedImageList = ({ route }, favourite = false) => {
         return response.json();
       })
       .then((data) => {
+        const typelist = []
+
         const updatedList = data.map((item) => ({
           ...item,
           image: {
@@ -52,6 +54,8 @@ const SubmittedImageList = ({ route }, favourite = false) => {
             onPress={() => {
               navigation.push("ImageDetails", {
                 imageDetail: item,
+                user: user,
+                type: type
               });
             }}
           >
@@ -71,7 +75,6 @@ const SubmittedImageList = ({ route }, favourite = false) => {
                         marginBottom: "100%",
                       }}
                     >
-                      <FavouriteButton active={true} />
                     </View>
                   </View>
                 </SharedElement>

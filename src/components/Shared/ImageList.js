@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -5,82 +6,90 @@ import {
   TouchableOpacity,
   View,
   Image,
-  Button,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import FavouriteButton from "../Shared/FavouriteButton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { SharedElement } from "react-navigation-shared-element";
+import FavouriteButton from "../Shared/FavouriteButton";
+
 const { width } = Dimensions.get("window");
 const IMAGE_WIDTH = (width * 0.985) / 2;
 const IMAGE_HEIGHT = (width * 0.985) / 2;
 
-
-const ImageList = ({ route }) => {
+const ImageList = ({ user, type }) => {
   const [list, setList] = useState([]);
   const navigation = useNavigation();
-  useEffect(()=>{
-    fetch(`http://192.168.0.105:8000/api/post`, { method: "GET" })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const updatedList = data.map((item) => ({
-        ...item,
-        image: {
-          uri: `https://firebasestorage.googleapis.com/v0/b/illustphoto-b780b.appspot.com/o/user%2F${item.contributor}%2Fpost%2F${decodeURIComponent(item.picture).split("/").pop()}?alt=media`,
-        },
-      }));
-      setList(updatedList);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error.message);
-    });
-}, []);
+  console.log(type)
+  const fetchImageData = useCallback(() => {
+    fetch(`http://192.168.0.105:8000/api/post/${type}/`, { method: "GET" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const updatedList = data.map((item) => ({
+          ...item,
+          image: {
+            uri: `https://firebasestorage.googleapis.com/v0/b/illustphoto-b780b.appspot.com/o/user%2F${item.contributor}%2Fpost%2F${decodeURIComponent(
+              item.picture
+            ).split("/").pop()}?alt=media`,
+          },
+        }));
+        setList(updatedList);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchImageData();
+  }, [fetchImageData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchImageData();
+    }, [fetchImageData])
+  );
+
   return (
-    
     <View style={styles.container}>
-      {list.map((item, index) => {
-        return (
-          <View style={[styles.cardContainer]} key={item.id}>
-            <TouchableOpacity
-              style={styles.container}
-              key={item.id}
-              onPress={() => {
-                navigation.push("ImageDetails", {
-                  imageDetail: item,
-                });
-              }}
-            >
-              <View>
-                <View style={[styles.card, styles.shadowLight]}>
-                  <SharedElement id={`ImageDetails.${item.id}.image`}>
-                    <View style={styles.imageBox}>
-                      <Image
-                        style={styles.image}
-                        source={item.image}
-                      />
-                      <View
-                        style={{
-                          justifyContent: "flex-end",
-                          position: "absolute",
-                          alignSelf: "flex-end",
-                          marginBottom: "100%",
-                        }}
-                      >
-                        <FavouriteButton active={true} />
-                      </View>
+      {list.map((item, index) => (
+        <View style={[styles.cardContainer]} key={item.id}>
+          <TouchableOpacity
+            style={styles.container}
+            key={item.id}
+            onPress={() => {
+              navigation.push("ImageDetails", {
+                imageDetail: item,
+                user: user,
+                type: type
+              });
+            }}
+          >
+            <View>
+              <View style={[styles.card, styles.shadowLight]}>
+                <SharedElement id={`ImageDetails.${item.id}.image`}>
+                  <View style={styles.imageBox}>
+                    <Image style={styles.image} source={item.image} />
+                    <View
+                      style={{
+                        justifyContent: "flex-end",
+                        position: "absolute",
+                        alignSelf: "flex-end",
+                        marginBottom: "100%",
+                      }}
+                    >
+
                     </View>
-                  </SharedElement>
-                </View>
+                  </View>
+                </SharedElement>
               </View>
-            </TouchableOpacity>
-          </View>
-        );
-      })}
+            </View>
+          </TouchableOpacity>
+        </View>
+      ))}
     </View>
   );
 };
@@ -110,20 +119,6 @@ const styles = StyleSheet.create({
     width: IMAGE_WIDTH,
     height: IMAGE_HEIGHT,
     resizeMode: "cover",
-  },
-
-  titleBox: {
-    flex: 1,
-  },
-  title: {
-    marginVertical: 4,
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "black",
-  },
-  author: {
-    fontSize: 16,
-    color: "gray",
   },
   shadowLight: {
     shadowColor: "black",

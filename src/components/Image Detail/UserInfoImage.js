@@ -6,11 +6,11 @@ import FavouriteButton from './../../components/Shared/FavouriteButton'
 const { width } = Dimensions.get('window');
 const IMAGE_WIDTH = 0.7 * width;
 const IMAGE_HEIGHT = width * 0.55;
-const UserInfoImage = ({noFavourite, author}) => {
+const UserInfoImage = ({noFavourite, user, author}) => {
     const navigation=useNavigation()
     const [illust, setIllust] = useState([])
   useEffect(()=> {
-    fetch(`http://192.168.0.105:8000/api/post/${author}`, { method: "GET" })
+    fetch(`http://192.168.0.105:8000/api/post/user/${author}`, { method: "GET" })
     .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -36,13 +36,12 @@ const UserInfoImage = ({noFavourite, author}) => {
     {illust.map((item, index) => {
         return (
             <View key={item.id}>
-            <TouchableOpacity onPress={() => {navigation.push('ImageDetails', {imageDetail: item})}}>
+            <TouchableOpacity onPress={() => {navigation.push('ImageDetails', {imageDetail: item, type: (item.type === 'Illust' ? 'illust': 'photo')})}}>
                 <View>
                     <SharedElement id={`ImageDetails.${item.id}.image`}>
                     <View style={styles.imageBox}>
                     <Image style={styles.image} source={item.image}/>
                     <View style={{position: 'absolute', bottom: 0, alignSelf: 'flex-end'}}>
-                            {noFavourite? <View/>:<FavouriteButton/>}
                     </View>
               </View>
 

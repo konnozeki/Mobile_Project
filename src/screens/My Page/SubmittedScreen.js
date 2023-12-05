@@ -14,12 +14,12 @@ const SubmittedScreen = ({route}) => {
   const tabs = [
     {
         title: 'Illust',
-        content: <SubmittedImageList route={route}></SubmittedImageList>,
+        content: <SubmittedImageList key={1} type={'illust'} route={route}></SubmittedImageList>,
         icon: Illust
     },
     {
         title: 'Photo',
-        content: <Text>Photo</Text>,
+        content: <SubmittedImageList key={2} type={'photo'} route={route}></SubmittedImageList>,
         icon: Camera
     },
   ]

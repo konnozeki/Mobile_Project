@@ -16,7 +16,7 @@ const MyPageDetail = ({route}) => {
           </View>
 
           <View style = {{position: 'absolute', bottom: 0, flexDirection: 'row' , marginHorizontal: '4%', marginVertical: '2%'}}>
-          <TouchableOpacity onPress={()=>{navigation.navigate("UserDetails", {user: user})}} style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={()=>{navigation.navigate("UserDetails", {user: user, author: user.id})}} style={{flexDirection: 'row'}}>
               <View style={{width: height * 0.1, height: height * 0.1}}>
                 <Image style={{width: height * 0.1, height: height * 0.1, borderRadius: height * 0.05}} source={require('./../../../assets/images/welcome.jpg')}/>
               </View>
@@ -45,7 +45,7 @@ const MyPageDetail = ({route}) => {
             </View>
             <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>
               <View style = {{marginVertical: '3%', marginHorizontal: '8%', }}>
-                <TouchableOpacity><Text style = {{fontSize: 18}}>Notifications</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('FavouriteScreen', {route: route})}><Text style = {{fontSize: 18}}>Favourite Posts</Text></TouchableOpacity>
               </View>
             </View>
             <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>

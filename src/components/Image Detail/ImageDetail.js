@@ -23,13 +23,13 @@ const { width } = Dimensions.get("window");
 
 
 
-const ImageDetail = ({ navigation, route, active }) => {
+const ImageDetail = ({ navigation, route}) => {
+  const {imageDetail, user, type} = route.params
   const [visible, setVisible] = useState(false);
-  const { user, imageDetail } = route.params;
   const [author, setAuthor] = useState('')
-
-  useEffect(() => {
-    fetch(`http://192.168.0.105:8000/api/user/${imageDetail.contributor}`, { method: "GET" })
+  const [likes, setLikes] = useState(0)
+  useEffect(()=>{
+    fetch(`http://192.168.0.105:8000/api/favourite/post/${imageDetail.id}`, {method: 'GET'})
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -37,9 +37,29 @@ const ImageDetail = ({ navigation, route, active }) => {
       return response.json();
     })
     .then((data) => {
-      setAuthor(data.username)
+      setLikes(data.length)
     })
+    .catch((error) => {
+      console.error("Error fetching user data:", error.message);
+    });
   })
+  useEffect(() => {
+    if (imageDetail && imageDetail.contributor) {
+      fetch(`http://192.168.0.105:8000/api/user/${imageDetail.contributor}`, { method: "GET" })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setAuthor(data.username);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error.message);
+        });
+    }
+  }, [imageDetail]);
 
   
   return (
@@ -55,14 +75,14 @@ const ImageDetail = ({ navigation, route, active }) => {
           automaticallyAdjustKeyboardInsets={true}
           showsVerticalScrollIndicator={false}
         >
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View style={{ justifyContent: "center", alignItems: "center", backgroundColor: '#e7e7e7' }}>
             <TouchableOpacity
               onPress={() => {
                 setVisible(true);
               }}
             >
               <Image
-                style={{ width: width, height: width * 1.5 }}
+                style={{ width: width, height: width * 1.5, resizeMode: 'contain' }}
                 source={imageDetail.image}
               />
               <Modal
@@ -83,9 +103,13 @@ const ImageDetail = ({ navigation, route, active }) => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.line} />
-          <View style={{ marginHorizontal: "8%" }}>
-            <FavouriteButton></FavouriteButton>
+          <View style={[styles.line]} />
+          <View style={{ marginHorizontal: "8%", flexDirection: 'row', alignItems: 'center' }}>
+                <Text>{likes + imageDetail.number_of_likes}</Text>
+                <FavouriteButton
+      user={user.id}
+      post={imageDetail.id}
+    />
           </View>
           <View
             style={{
@@ -139,7 +163,7 @@ const ImageDetail = ({ navigation, route, active }) => {
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <UserInfoImage author={imageDetail.contributor} noFavourite={false}></UserInfoImage>
+              <UserInfoImage user = {user.id} author={imageDetail.contributor} noFavourite={false}></UserInfoImage>
             </View>
           </View>
           <View style={[styles.line, { marginVertical: "4%" }]} />
@@ -182,7 +206,7 @@ const ImageDetail = ({ navigation, route, active }) => {
             >
               Related Works
             </Text>
-            <ImageList></ImageList>
+            <ImageList type={type} user={user}></ImageList>
           </View>
         </ScrollView>
       </View>

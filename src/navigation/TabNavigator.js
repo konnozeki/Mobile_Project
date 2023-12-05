@@ -1,16 +1,12 @@
 import {StyleSheet, Dimensions} from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FavouriteScreen from "../screens/Favourite/FavouriteScreen";
-import NewsScreen from "../screens/News/NewsScreen";
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-import {Home, Search, Favourite , News, Article, User} from "./../constants/icon"
+import {Home, Search, Favourite , News, Article, User, Notification} from "./../constants/icon"
 import RecommendedStack from "./Recommended/RecommendedStack";
 import ExploreStack from "./Explore/ExploreStack";
-import ArticleStack from "./Article/ArticleStack";
 import MyPageStack from "./My Page/MyPageStack"
-const windowHeight = Dimensions.get("screen").height;
+import NotificationStack from "./Notification/NotificationStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,17 +21,11 @@ const tabs = [
     name: "Explore",
     icon: Search
   },
-  {
-    screen: ArticleStack,
-    name: "News",
-    icon: News
-  },
-
 
   {
-    screen: FavouriteScreen,
-    name: "Favourite",
-    icon: Favourite
+    screen: NotificationStack,
+    name: "Notification",
+    icon: Notification
   },
   {
     screen: MyPageStack,

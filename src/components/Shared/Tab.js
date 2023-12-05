@@ -21,7 +21,7 @@ const Tab = ({item, icon = true}) => {
                 })}
                 
             </View>
-            <ScrollView style = {{marginBottom: '23.5%'}} showsVerticalScrollIndicator={false}>
+            <ScrollView  style = {{marginBottom: '23.5%', backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
             {item[index].content}
             </ScrollView>
     </View>
