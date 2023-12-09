@@ -19,6 +19,7 @@ import AndroidSafeArea from "../../Android/AndroidSafeArea";
 import UserInfoImage from "./UserInfoImage";
 import ImageList from "../Shared/ImageList";
 import FavouriteButton from "../Shared/FavouriteButton";
+import DeleteButton from "../Shared/DeleteButton";
 const { width } = Dimensions.get("window");
 
 
@@ -105,11 +106,14 @@ const ImageDetail = ({ navigation, route}) => {
 
           <View style={[styles.line]} />
           <View style={{ marginHorizontal: "8%", flexDirection: 'row', alignItems: 'center' }}>
+          <Text>{imageDetail.release_date+"    "}</Text>
                 <Text>{likes + imageDetail.number_of_likes}</Text>
                 <FavouriteButton
       user={user.id}
       post={imageDetail.id}
     />
+    {user.id == imageDetail.contributor ? <DeleteButton navigation={navigation} post={imageDetail}/>: <></>}
+
           </View>
           <View
             style={{
@@ -118,7 +122,8 @@ const ImageDetail = ({ navigation, route}) => {
               marginBottom: "4%",
             }}
           >
-            <Text>
+          
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>
               {imageDetail.content == "null"
                 ? "No description"
                 : imageDetail.content}
@@ -131,8 +136,8 @@ const ImageDetail = ({ navigation, route}) => {
                 flexWrap: "wrap",
               }}
             >
-              <Text style={{ fontStyle: "italic" }}>
-                This section declares the hashtag
+              <Text style={{ fontStyle: "italic", fontSize: 18}}>
+                {imageDetail.hashtags.length === 0 ? "No hashtags" : imageDetail.hashtags.join(' ')}
               </Text>
             </View>
           </View>

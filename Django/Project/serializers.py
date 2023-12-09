@@ -49,11 +49,19 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'post', 'previous_comment', 'content', 'number_of_likes']
 
 
-class PostSerializer(serializers.ModelSerializer):
+from taggit_serializer.serializers import (TagListSerializerField, TaggitSerializer)
+class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
+    hashtags = TagListSerializerField()
     class Meta:
         model = Post
-        fields = ['id', 'title', 'release_date', 'content','type', 'contributor', 'number_of_likes', 'age_restriction', 'picture']
-          
+        fields = ['id', 'title', 'release_date', 'content','type', 'contributor', 'number_of_likes', 'age_restriction', 'picture', 'hashtags']
+    def create(self, validated_data):
+        hashtags_data = validated_data.pop('hashtags', [])  # Assuming 'tags' is the field for tags
+        post = Post.objects.create(**validated_data)
+
+        # Set tags for the post
+        post.hashtags.set(hashtags_data)
+        return post      
 
 class FavouritePostSerializer(serializers.ModelSerializer):
     class Meta:

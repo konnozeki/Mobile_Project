@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 {/* Cái này gồm các tham số của item là icon, content. */}
 
 const Tab = ({item, icon = true}) => {
-    const insets = useSafeAreaInsets();
 
     const [index, setIndex] = useState(0);
   return (
@@ -21,7 +20,7 @@ const Tab = ({item, icon = true}) => {
                 })}
                 
             </View>
-            <ScrollView  style = {{marginBottom: '23.5%', backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
+            <ScrollView  style = {{marginBottom: '23.5%', backgroundColor: 'white', height: '100%'}} showsVerticalScrollIndicator={false}>
             {item[index].content}
             </ScrollView>
     </View>

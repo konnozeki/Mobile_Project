@@ -57,6 +57,8 @@ def save_image_to_firebase(instance):
 
     return public_url
 
+
+from taggit.managers import TaggableManager
 class Post(models.Model):
     release_date = models.DateField(null=False)
     content = models.TextField()
@@ -66,6 +68,7 @@ class Post(models.Model):
     age_restriction = models.CharField(max_length=3, choices=AGE_RESTRICTION, null=False)
     picture = models.ImageField(null=False, blank=True, upload_to=post_image_path)
     type = models.CharField(max_length=6, choices=TYPE, null=False, default='Illust')
+    hashtags = TaggableManager()
     def save_image_to_firebase(self):
         if self.picture:
             # Open the image file and read its content

@@ -1,7 +1,7 @@
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import FavouriteButton from './FavouriteButton';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {SharedElement} from 'react-navigation-shared-element'
 const { width } = Dimensions.get('window');
 const IMAGE_WIDTH = 0.7 * width;
@@ -34,6 +34,12 @@ const TopCarousel = ({user, list, title, type}) => {
   useEffect(()=>{
     fetchList()
   }, [])
+
+  useFocusEffect(
+    useCallback(()=>{
+      fetchList()
+    }, [])
+  )
   const navigation=useNavigation()
   return ( 
     <>

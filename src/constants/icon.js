@@ -51,3 +51,5 @@ export const Share = {
     active: <AntDesign name="sharealt" size={24} color="white" />,
     inactive: <AntDesign name="sharealt" size={24} color="black" />
 }
+
+export const Trash = <Ionicons name="trash-outline" size={24} color='red'/>

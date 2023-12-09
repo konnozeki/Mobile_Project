@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState} from 'react'
 import AndroidSafeArea from '../../Android/AndroidSafeArea'
 import { useNavigation } from '@react-navigation/native'
@@ -76,9 +76,8 @@ Promise.all(promisesPost)
     });
 }, []);
 
-console.log(author);
-console.log(userList);
-console.log(postList)
+
+if(author.length!==0&&postList.length!==0)
   return (
     <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
         <View style={{backgroundColor: '#242526', paddingVertical: '4%', alignItems: 'center'}}>
@@ -86,13 +85,25 @@ console.log(postList)
         </View>
         <ScrollView style={{backgroundColor:'white'}}>
             <View style={{ borderBottomColor: "gray", borderTopWidth: StyleSheet.hairlineWidth, flex: 2, justifyContent:'center'}}>
-
                     {author.map((item, index) => (
                         <>
-                        <View  key={index} style={{marginHorizontal: '8%', paddingVertical: '7%'}}>
-                            <TouchableOpacity onPress={()=>navigation.navigate('ImageDetails', {imageDetail: postList[index] ,user: user, type: postList[index].type === undefined || postList[index].type ==='Illust' ? 'illust' : 'photo', navigation: navigation})}>
-                                <Text style={{fontSize: 18}}>User <Text style={{fontWeight: 'bold'}}>{userList.length === 0 ? 'unknown': userList[index].username}</Text> liked your post <Text style={{fontWeight: 'bold'}}>{postList.length === 0 ? 'unknown': postList[index].title}</Text>.</Text>
-                            </TouchableOpacity> 
+                        {console.log(index)}
+                        <View key={index+999} style={{marginHorizontal: '8%', paddingVertical: '7%'}}>
+                        <TouchableOpacity key={item.id} onPress={()=>navigation.navigate('ImageDetails', {imageDetail: postList[index] ,user: user, type: postList[index].type === undefined || postList[index].type ==='Illust' ? 'illust' : 'photo'})}>
+                          <View style={{flexDirection: 'row'}}>
+
+
+                            <View style={{width: '70%', justifyContent: 'center'}}>
+                              
+                                  <Text numberOfLines={1} style={{fontSize: 18}}><Text style={{fontWeight: 'bold'}}>{userList.length === 0 ? 'unknown': userList[index].username}</Text> liked <Text style={{fontWeight: 'bold'}}>{postList.length === 0 ? 'unknown': postList[index].title}</Text>.</Text>
+
+                            </View>
+                            <View style={{width: '30%', alignItems: 'center', justifyContent: 'center'}}>
+                              <Image source={postList[index].image} alt='Image' style={{width: 50, height: 50}}></Image>
+                            </View>
+                            
+                        </View>
+                        </TouchableOpacity> 
                         </View>
                         <View style={styles.line}></View>
                         </>
@@ -103,6 +114,18 @@ console.log(postList)
         </ScrollView>
     </SafeAreaView>
   )
+else {
+  return (
+    <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
+        <View style={{backgroundColor: '#242526', paddingVertical: '4%', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Notifications</Text>
+        </View>
+        <View style={{backgroundColor: 'white', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{position: 'absolute', marginBottom: '15%', fontSize: 20}}>There is nothing in here...</Text>
+        </View>
+    </SafeAreaView>
+  )
+}
 }
 
 export default NotificationScreen

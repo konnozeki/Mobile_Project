@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform, SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Dimensions, ScrollView } from 'react-native';
+import React, { useState} from 'react';
+import {Image, View, SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Dimensions, ScrollView,
+  FlatList, } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import AndroidSafeArea from '../../Android/AndroidSafeArea';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -46,20 +47,38 @@ export default function ImageInputForm({route}) {
   const [image, setImage] = useState(null);
   const {user} = route.params 
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
 
   
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (navigation) => {
     const postData = new FormData();
-
-    postData.append('release_date', '2023-11-22');
+    if(type !== 'Photo' && type != 'Illust') Alert.alert('Validation Error', 'Please choose your post type.')
+    else if(title.trim()==='') Alert.alert('Validation Error', 'Please input your title.')
+    else if(hashtags.length===0) Alert.alert('Validation Error', 'Please input your hashtag at least 1.')
+    else if(age !== 'All' && age != '18+') Alert.alert('Validation Error', 'Please choose the age restriction of your post.')
+  else 
+    {
+    postData.append('release_date', getCurrentDate());
     postData.append('content', content);
     postData.append('type', type);
     postData.append('contributor', user.id); 
     postData.append('number_of_likes', '0');
     postData.append('title', title);
     postData.append('age_restriction', age);
+
+    setHashtags([...hashtags, "#" + type==='Illust'?'Illustration':'Photograph']);
+    console.log(hashtags)
+    const hashtagsJSON = JSON.stringify(hashtags);
+    postData.append('hashtags', hashtagsJSON);
 
     // Append the image file to the FormData object
     // 'picture' should match the name expected by your Django backend
@@ -79,11 +98,16 @@ export default function ImageInputForm({route}) {
       .then(data => {
         console.log('Success:', JSON.stringify(data));
         // Handle success response here
+        Alert.alert('Post Successful', 'Press Return to go back', [{
+          text: 'Return',
+          onPress: () => navigation.goBack(),
+          style: 'cancel',
+      }])
       })
       .catch(error => {
         console.error('Error:', error);
         // Handle error here
-      });
+      });}
       
   }
 
@@ -105,9 +129,28 @@ export default function ImageInputForm({route}) {
       setImage(result.assets[0].uri);
     }
   };
+  const [hashtags, setHashtags] = useState([]);
+  const [currentHashtag, setCurrentHashtag] = useState('');
+  const handleAddHashtag = () => {
+    if (currentHashtag) {
+      setHashtags([...hashtags, "#" + currentHashtag]);
+      setCurrentHashtag('');
+    }
+  };
+  const handleHashtagChanging = (hashtag) => {
+    const newHashtag = hashtag.replace(/\s/g, '')
+    setCurrentHashtag(newHashtag)
+  }
+  const handleRemoveHashtag = (index) => {
+    // Create a copy of the current hashtags array
+    const updatedHashtags = [...hashtags];
+    // Remove the hashtag at the specified index
+    updatedHashtags.splice(index, 1);
+    // Update the state with the new array
+    setHashtags(updatedHashtags);
+  };
   const navigation = useNavigation()
   const [title, setTitle] = useState(null)
-  const [date, setDate] = useState(null)
   const [age, setAge] = useState(null)
   const [content, setContent] = useState(null)
   const [type, setType] = useState(null);
@@ -158,6 +201,46 @@ export default function ImageInputForm({route}) {
             </View>
             <View style={styles.line}></View>
 
+
+      <View>
+        <View style={{ backgroundColor: "#f5f5f5", paddingVertical: '2%' }}>
+          <Text style={{ marginHorizontal: '8%', fontSize: 18 }}>Hashtags</Text>
+        </View>
+        <View style={styles.line}></View>
+        <FlatList
+        style={{marginHorizontal: '8%', marginVertical: '2%'}}
+          data={hashtags}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity onPress={()=>handleRemoveHashtag(index)}>
+            <View style={{backgroundColor: '#242526', borderRadius: 5, height: 25, justifyContent: 'center'}}>
+              <Text style={{color: 'white', fontSize: 18}}>{" " + item}<Text style={{fontWeight: 'bold', color: 'white', fontSize: 18}}> {" " + String.fromCharCode(215)}  </Text></Text>
+            </View>
+            </TouchableOpacity>
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
+        />
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: '8%', marginVertical: '4%' }}>
+          <TextInput
+            onChangeText={handleHashtagChanging}
+            value={currentHashtag}
+            style={{ flex: 1, justifyContent: 'center' }}
+            placeholder='Type hashtags'
+            onSubmitEditing={handleAddHashtag}
+            keyboardType='default'
+          />
+           <TouchableOpacity onPress={handleAddHashtag}>
+            <Text style={{ fontSize: 20, color: 'blue' }}>+</Text>
+          </TouchableOpacity>
+        </View>
+        
+      </View>
+      <View style={styles.line}></View>
+
+
+
             <View>
               <View style={{backgroundColor:"#f5f5f5", paddingVertical: '2%'}}>
                 <Text style={{marginHorizontal: '8%', fontSize: 18}}>Description</Text>
@@ -185,7 +268,7 @@ export default function ImageInputForm({route}) {
       />
       </View>
           <View style = {{alignSelf: 'center', justifyContent: 'center', height: height * 0.1}}>
-            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={handleSubmit}>
+            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={()=>handleSubmit(navigation)}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>Post</Text>
             </TouchableOpacity>
           </View>

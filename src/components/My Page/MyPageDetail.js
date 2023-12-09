@@ -40,7 +40,7 @@ const MyPageDetail = ({route}) => {
           <View id='Second' style = {{justifyContent: 'flex-start'}}>
             <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth, borderTopWidth: StyleSheet.hairlineWidth}}>
               <View style = {{marginVertical: '3%', marginHorizontal: '8%', }}>
-                <TouchableOpacity onPress={()=>{navigation.navigate('SubmittedScreen', {navigation: navigation})}}><Text style = {{fontSize: 18}}>Submitted Posts</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>{navigation.navigate('SubmittedScreen', {user: user})}}><Text style = {{fontSize: 18}}>Submitted Posts</Text></TouchableOpacity>
               </View>
             </View>
             <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { SharedElement } from "react-navigation-shared-element";
@@ -74,9 +75,9 @@ const FavouriteImageList = ({ user, type }) => {
       if (list.length > 0) {
         fetchPostData();
       }
-    }, [list, fetchPostData]);
-
-  return (
+    }, [fetchPostData, list]);
+  console.log(postData)
+  if(postData.length!==0) return (
     <View style={styles.container}>
       {postData.map((item, index) => (
         <View style={[styles.cardContainer]} key={item.id}>
@@ -87,6 +88,7 @@ const FavouriteImageList = ({ user, type }) => {
               navigation.push("ImageDetails", {
                 imageDetail: item,
                 user: user,
+                type: type
               });
             }}
           >
@@ -114,7 +116,15 @@ const FavouriteImageList = ({ user, type }) => {
       ))}
     </View>
   );
+  else {
+    return (
+      <View>
+        <Text style={{fontSize: 20}}>There is nothing in there...</Text>
+      </View>
+    )
+  }
 };
+
 
 export default FavouriteImageList;
 

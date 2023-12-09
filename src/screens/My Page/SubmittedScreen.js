@@ -10,7 +10,7 @@ import SubmittedImageList from '../../components/My Page/SubmittedImageList';
 
 const SubmittedScreen = ({route}) => {
   const navigation = useNavigation()
-  const {user} = route.params
+  const {user, author} = route.params
   const tabs = [
     {
         title: 'Illust',
@@ -26,7 +26,7 @@ const SubmittedScreen = ({route}) => {
   return (
     <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
         <View style={{backgroundColor: 'white'}}>
-        <NavigationHeader navigation={navigation}></NavigationHeader>
+        <NavigationHeader author={author !== undefined?author:user.username} title={'Submitted Posts'} navigation={navigation}></NavigationHeader>
         <Tab item={tabs}></Tab>
         </View>
     </SafeAreaView>
