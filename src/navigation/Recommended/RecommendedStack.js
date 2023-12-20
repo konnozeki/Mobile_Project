@@ -5,6 +5,7 @@ import RecommendedScreen from '../../screens/Recommended/RecommendedScreen'
 import ImageDetailsScreen from '../../screens/Image Details/ImageDetailScreen'
 import UserDetail from '../../components/User/UserDetail'
 import SubmittedScreen from '../../screens/My Page/SubmittedScreen'
+import ExploreDetail from '../../components/Explore/ExploreDetail'
 const Stack = createSharedElementStackNavigator()
 const RecommendedStack = ({route}) => {
   const {user} = route.params 
@@ -12,6 +13,7 @@ const RecommendedStack = ({route}) => {
     <Stack.Navigator screenOptions={{cardStyle: {backgroundColor: 'white'}}}>
         <Stack.Screen name="RecommendedScreen" initialParams={{user: user}} component={RecommendedScreen} options={{headerShown:false, useNativeDriver:true }}></Stack.Screen>
         <Stack.Screen name="ImageDetails" initialParams={{user: user}} component={ImageDetailsScreen} options={{headerShown: false, useNativeDriver:true}}/>
+        <Stack.Screen name="ExploreDetail" initialParams={{user: user}} component={ExploreDetail} options={{headerShown: false, useNativeDriver:true}}/>
         <Stack.Screen name="UserDetails" initialParams={{user: user}} component={UserDetail} options={{headerShown: false, useNativeDriver:true}}></Stack.Screen>
         <Stack.Screen name='SubmittedScreen' initialParams={{user: user}} component={SubmittedScreen} options={{headerShown: false, useNativeDriver:true}}></Stack.Screen>
     </Stack.Navigator>

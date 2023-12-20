@@ -75,7 +75,7 @@ export default function ImageInputForm({route}) {
     postData.append('title', title);
     postData.append('age_restriction', age);
 
-    setHashtags([...hashtags, "#" + type==='Illust'?'Illustration':'Photograph']);
+    setHashtags([...hashtags, type==='Illustration'?'#Illustration':'#Photograph']);
     console.log(hashtags)
     const hashtagsJSON = JSON.stringify(hashtags);
     postData.append('hashtags', hashtagsJSON);

@@ -26,4 +26,10 @@ urlpatterns = [
     path('favourite/post/<int:pk>', views.post_favourite_posts),
     path('favourite/user/<int:pk>', views.user_favourite_posts),
     path('favourite/contributor/<int:pk>', views.favourite_contributor_list),
+    path('hashtags/illust/', views.fetch_illust_posts_with_hashtag_counts),
+    path('hashtags/illust/limited/', views.fetch_illust_posts_with_hashtag_counts_limited),
+    path('hashtags/photo/', views.fetch_photo_posts_with_hashtag_counts),
+    path('hashtags/photo/limited/', views.fetch_photo_posts_with_hashtag_counts_limited),
+    path('post/illust/<str:hashtag_word>/', views.posts_illust_by_hashtags),
+    path('post/photo/<str:hashtag_word>/', views.posts_photo_by_hashtags)
 ]

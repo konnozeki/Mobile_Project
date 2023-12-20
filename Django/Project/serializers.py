@@ -54,7 +54,7 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
     hashtags = TagListSerializerField()
     class Meta:
         model = Post
-        fields = ['id', 'title', 'release_date', 'content','type', 'contributor', 'number_of_likes', 'age_restriction', 'picture', 'hashtags']
+        fields = '__all__'
     def create(self, validated_data):
         hashtags_data = validated_data.pop('hashtags', [])  # Assuming 'tags' is the field for tags
         post = Post.objects.create(**validated_data)

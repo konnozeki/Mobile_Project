@@ -6,7 +6,7 @@ from rest_framework.parsers import JSONParser,  MultiPartParser
 from Project.models import *
 from Project.serializers import *
 from rest_framework.decorators import api_view, parser_classes
-
+from collections import Counter
 
 @csrf_exempt
 def user_list(request):
@@ -51,6 +51,76 @@ def user_detail(request, pk):
         user.delete()
         return HttpResponse(status=204)
     
+def fetch_illust_posts_with_hashtag_counts(request):
+    if request.method == "GET":
+        # Get all posts with hashtags
+        posts = Post.objects.filter(type="Illust").exclude(hashtags=None)
+        all_hashtags = [tag.name for post in posts for tag in post.hashtags.all()]
+        hashtag_counts = Counter(all_hashtags)
+        sorted_hashtags = sorted(hashtag_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_hashtags_dict = dict(sorted_hashtags)
+        return JsonResponse(sorted_hashtags_dict)
+    
+
+def fetch_illust_posts_with_hashtag_counts_limited(request):
+    if request.method == "GET":
+        # Get all posts with hashtags and count occurrences
+        hashtag_counts = Post.objects.filter(type="Illust").exclude(hashtags=None).values_list('hashtags__name', flat=True)
+        hashtag_counts = Counter(hashtag_counts)
+
+        # Get the top 9 hashtags
+        top_hashtags = dict(sorted(hashtag_counts.items(), key=lambda x: x[1], reverse=True)[:9])
+
+        return JsonResponse(top_hashtags)
+    
+def fetch_photo_posts_with_hashtag_counts(request):
+    if request.method == "GET":
+        # Get all posts with hashtags
+        posts = Post.objects.filter(type="Photo").exclude(hashtags=None)
+        all_hashtags = [tag.name for post in posts for tag in post.hashtags.all()]
+        hashtag_counts = Counter(all_hashtags)
+        sorted_hashtags = sorted(hashtag_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_hashtags_dict = dict(sorted_hashtags)
+        return JsonResponse(sorted_hashtags_dict)
+    
+
+def fetch_photo_posts_with_hashtag_counts_limited(request):
+    if request.method == "GET":
+        # Get all posts with hashtags and count occurrences
+        hashtag_counts = Post.objects.filter(type="Photo").exclude(hashtags=None).values_list('hashtags__name', flat=True)
+        hashtag_counts = Counter(hashtag_counts)
+
+        # Get the top 9 hashtags
+        top_hashtags = dict(sorted(hashtag_counts.items(), key=lambda x: x[1], reverse=True)[:9])
+
+        return JsonResponse(top_hashtags)
+
+from django.db.models import Q
+def posts_illust_by_hashtags(request, hashtag_word):
+    if request.method == "GET":
+        # Exclude '#' character from the hashtag word
+        hashtag_word = hashtag_word.lstrip('#')
+
+        # Create a Q object to filter posts that have the specified hashtag word
+        filter_condition = Q(hashtags__name__iexact=hashtag_word) | Q(hashtags__name__iexact=f"#{hashtag_word}")
+
+        # Filter posts that have the specified hashtag word
+        posts = Post.objects.filter(type='Illust').filter(filter_condition).distinct()
+        serializer = PostSerializer(posts, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+def posts_photo_by_hashtags(request, hashtag_word):
+    if request.method == "GET":
+        # Exclude '#' character from the hashtag word
+        hashtag_word = hashtag_word.lstrip('#')
+
+        # Create a Q object to filter posts that have the specified hashtag word
+        filter_condition = Q(hashtags__name__iexact=hashtag_word) | Q(hashtags__name__iexact=f"#{hashtag_word}")
+
+        # Filter posts that have the specified hashtag word
+        posts = Post.objects.filter(type='Photo').filter(filter_condition).distinct()
+        serializer = PostSerializer(posts, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
 @api_view(['POST', 'GET'])
@@ -72,14 +142,14 @@ def post_list(request):
 from django.db.models import F, Count
 def post_illust_ranking_list(request):
     if request.method == "GET":
-        post = Post.objects.filter(type="Illust").annotate(num_likes=Count('number_of_likes')).order_by('-num_likes', '-release_date')[:5]
+        post = Post.objects.filter(type="Illust").annotate(num_likes=Count('number_of_likes')).order_by('-number_of_likes', 'release_date')[:5]
         serializer = PostSerializer(post, many=True)
         return JsonResponse(serializer.data, safe=False)
     
 
 def post_photograph_ranking_list(request):
     if request.method == "GET":
-        post = Post.objects.filter(type="Photo").annotate(num_likes=Count('number_of_likes')).order_by('-num_likes', '-release_date')[:5]
+        post = Post.objects.filter(type="Photo").annotate(num_likes=Count('number_of_likes')).order_by('-number_of_likes', '-release_date')[:5]
         serializer = PostSerializer(post, many=True)
         return JsonResponse(serializer.data, safe=False)
 

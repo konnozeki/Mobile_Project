@@ -30,19 +30,17 @@ const UserInfoImage = ({noFavourite, user, author}) => {
         console.error("Error fetching data:", error.message);
       });
   }, [])
-    return <View style = {{flexDirection: 'row', position: 'relative'}}>
+    return <View style = {{flexDirection: 'row', position: 'relative', flexWrap: 'wrap', marginBottom: '3%'}}>
     
 
     {illust.map((item, index) => {
-        return (
+        {if (index <= 9) return (
             <View key={item.id}>
             <TouchableOpacity onPress={() => {navigation.push('ImageDetails', {imageDetail: item, type: (item.type === 'Illust' ? 'illust': 'photo')})}}>
                 <View>
                     <SharedElement id={`ImageDetails.${item.id}.image`}>
                     <View style={styles.imageBox}>
                     <Image style={styles.image} source={item.image}/>
-                    <View style={{position: 'absolute', bottom: 0, alignSelf: 'flex-end'}}>
-                    </View>
               </View>
 
                     </SharedElement>
@@ -51,6 +49,8 @@ const UserInfoImage = ({noFavourite, user, author}) => {
 
             </View>
         )
+        else {return;}
+        }
     })
     
 }
@@ -62,33 +62,12 @@ export default UserInfoImage
 
 const styles = StyleSheet.create({
     imageBox: {
-        height: width * 0.32,
-        width: width * 0.32,
-        marginHorizontal: width * 0.04/6
+        height: width * 0.33,
+        width: width * 0.33,
+        marginHorizontal: width * 0.01/6
     },
     image: {
-        height: width * 0.32,
-        width: width * 0.32
+        height: width * 0.33,
+        width: width * 0.33
     }
 })
-
-const List = [
-    {
-        id: 1,
-        title: 'Title',
-        image: require('./../../../assets/images/welcome1.jpg'),
-        author: "Author"
-    },
-    {
-        id: 2,
-        title: 'Title',
-        image: require('./../../../assets/images/welcome2.jpg'),
-        author: 'Author'
-    },
-    {
-        id: 3,
-        title: 'Title',
-        image: require('./../../../assets/images/welcome3.jpg'),
-        author: 'Author'
-    },
-]

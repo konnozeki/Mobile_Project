@@ -4,6 +4,7 @@ import ExploreImageList from "./ExploreImageList"
 import Tab from '../Shared/Tab';
 import { Camera, Illust, User } from '../../constants/icon';
 const ExploreContent = () => {
+
   return (
     <View >
             <Tab item={tabs}></Tab>
@@ -18,18 +19,13 @@ const styles = StyleSheet.create({})
 const tabs = [
     {
         title: 'Illust',
-        content: <ExploreImageList/>,
+        content: <ExploreImageList type='illust'/>,
         icon: Illust
 
     },
     {
         title: 'Photo',
-        content: <Text>Test</Text>,
+        content: <ExploreImageList type='photo'/>,
         icon: Camera
-    },
-    {
-        title: 'User',
-        content: <ExploreImageList/>,
-        icon: User
     },
 ]

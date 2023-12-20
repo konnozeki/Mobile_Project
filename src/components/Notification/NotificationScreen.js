@@ -88,7 +88,7 @@ if(author.length!==0&&postList.length!==0)
                     {author.map((item, index) => (
                         <>
                         {console.log(index)}
-                        <View key={index+999} style={{marginHorizontal: '8%', paddingVertical: '7%'}}>
+                        <View style={{marginHorizontal: '8%', paddingVertical: '7%'}}>
                         <TouchableOpacity key={item.id} onPress={()=>navigation.navigate('ImageDetails', {imageDetail: postList[index] ,user: user, type: postList[index].type === undefined || postList[index].type ==='Illust' ? 'illust' : 'photo'})}>
                           <View style={{flexDirection: 'row'}}>
 

@@ -57,7 +57,8 @@ def save_image_to_firebase(instance):
 
     return public_url
 
-
+from urllib.parse import urlparse
+import os
 from taggit.managers import TaggableManager
 class Post(models.Model):
     release_date = models.DateField(null=False)
@@ -88,12 +89,26 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.picture:
-            # Save the image to Firebase Storage before saving the model
-            firebase_url = self.save_image_to_firebase()
 
-            # Set the image field to the Firebase Storage URL
-            self.picture.name = firebase_url
+            # Add default hashtags based on the type of the post
+        if self.type == 'Illust':
+            self.hashtags.add('#Illustration')
+        elif self.type == 'Photo':
+            self.hashtags.add('#Photograph')
+
+            # Continue with your existing save logic
+        super().save()
+
+        if self.picture:
+                # Save the image to Firebase Storage before saving the model
+            firebase_url = self.save_image_to_firebase()
+            parsed_url = urlparse(firebase_url)
+
+            # Get the filename from the path
+            filename = os.path.basename(parsed_url.path)
+                # Set the image field to the Firebase Storage URL
+            self.picture.name = firebase_url#f"https://firebasestorage.googleapis.com/v0/b/illustphoto-b780b.appspot.com/o/user%2F{self.contributor.id}%2Fpost%2F{filename}?alt=media"
+
 
             super().save()
 

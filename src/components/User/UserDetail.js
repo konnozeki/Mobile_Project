@@ -62,7 +62,6 @@ const UserDetail = ({navigation, route}) => {
                 </View>
                 <View style={{height: height*0.665, alignItems:'center'}}>
                     <Text style={{fontSize: 20, fontWeight: 'bold'}}>{username}</Text>
-                    <Text>1 Follower</Text>
                 </View>
                 
             </View>

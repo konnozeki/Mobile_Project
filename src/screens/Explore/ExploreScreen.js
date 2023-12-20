@@ -4,14 +4,15 @@ import ExploreSearch from '../../components/Explore/ExploreSearch';
 import ExploreContent from '../../components/Explore/ExploreContent';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AndroidSafeArea from '../../Android/AndroidSafeArea';
+import { Illust } from '../../constants/icon';
 
-const ExploreScreen = () => {
-
+const ExploreScreen = ({route}) => {
+  const {user} = route.params
   return (
 
     <SafeAreaView style={AndroidSafeArea.AndroidSafeArea}>
       <View style={{backgroundColor: 'white'}}>
-        <ExploreSearch/> 
+        <ExploreSearch user={user} type={'illust'}/> 
         <ExploreContent></ExploreContent>
       </View>
     </SafeAreaView>

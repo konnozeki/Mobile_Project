@@ -24,6 +24,7 @@ export const Notification = {
     inactive: <Ionicons name="notifications-outline" size={30} color="gray" />
 }
 export const LeftArrow = <AntDesign name="left" size={30} color="gray" />
+export const SmallLeftArrow = <AntDesign name="left" size={24} color="gray" />
 export const News = {
     active: <Ionicons name="newspaper-outline" size={24} color="white" />,
     inactive: <Ionicons name="newspaper-outline" size={24} color="gray" />

@@ -136,9 +136,18 @@ const ImageDetail = ({ navigation, route}) => {
                 flexWrap: "wrap",
               }}
             >
-              <Text style={{ fontStyle: "italic", fontSize: 18}}>
-                {imageDetail.hashtags.length === 0 ? "No hashtags" : imageDetail.hashtags.join(' ')}
-              </Text>
+              
+            </View>
+            <View style={{flexDirection: 'row'}}>
+            {imageDetail.hashtags.length === 0 ? <View></View> : imageDetail.hashtags.map((item, index) => {
+                return (
+                  <View key={index}>
+                  <TouchableOpacity onPress={()=>navigation.push("ExploreDetail", {hashtag: item, type: type})}>
+                    <Text style={{fontSize: 16}}>{item + " "}</Text>
+                  </TouchableOpacity>
+                  </View>
+                )
+              })}
             </View>
           </View>
           <View style={styles.line} />
@@ -161,9 +170,6 @@ const ImageDetail = ({ navigation, route}) => {
                   {author}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <Text style={{ color: "blue", fontSize: 20 }}>Follow</Text>
-              </TouchableOpacity>
             </View>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
@@ -172,34 +178,7 @@ const ImageDetail = ({ navigation, route}) => {
             </View>
           </View>
           <View style={[styles.line, { marginVertical: "4%" }]} />
-          <View id="Comment Section" style={styles.commentSection}>
-            <View id="Comment Input" style={styles.commentInput}>
-              <TextInput
-                style={{
-                  fontSize: 16,
-                  paddingHorizontal: "5%",
-                  height: 40,
-                  backgroundColor: "white",
-                }}
-                editable
-                placeholder="Leave a Comment..."
-              />
-            </View>
-            <View id="Comments">
-              <View id="Comment 1" style={styles.comment}>
-                <Text>This is comment 1</Text>
-                <View id="ReplyButton" style={styles.replyButton}>
-                  <Button title="Reply"></Button>
-                </View>
-              </View>
-              <View id="Comment 2" style={styles.comment}>
-                <Text>This is comment 2</Text>
-                <View id="ReplyButton" style={styles.replyButton}>
-                  <Button title="Reply"></Button>
-                </View>
-              </View>
-            </View>
-          </View>
+          
           <View id="Next Recommended">
             <Text
               style={{
