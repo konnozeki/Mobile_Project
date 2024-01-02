@@ -238,7 +238,7 @@ def post_illust_list(request, pk):
         # Lấy tối đa 2 post cho mỗi contributor (tối đa 12 post)
         suggested_posts = []
         for contributor_id in contributor_ids:
-            contributor_posts = Post.objects.filter(contributor=contributor_id, type="Illust")[:2]
+            contributor_posts = Post.objects.filter(contributor=contributor_id, type="Illust").order_by('?')[:2]
             suggested_posts.extend(contributor_posts)
 
         # Nếu không đủ 12 post, thêm ngẫu nhiên các post còn lại
@@ -277,7 +277,7 @@ def post_photograph_list(request, pk):
         # Lấy tối đa 2 post cho mỗi contributor (tối đa 12 post)
         suggested_posts = []
         for contributor_id in contributor_ids:
-            contributor_posts = Post.objects.filter(contributor=contributor_id, type="Photo")[:2]
+            contributor_posts = Post.objects.filter(contributor=contributor_id, type="Photo").order_by('?')[:2]
             suggested_posts.extend(contributor_posts)
 
         # Nếu không đủ 12 post, thêm ngẫu nhiên các post còn lại
