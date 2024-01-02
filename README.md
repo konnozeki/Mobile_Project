@@ -8,10 +8,15 @@
 Sử dụng React Native Expo để phát triển ứng dụng di động. https://expo.dev/
 ### Backend
 Sử dụng Python Django làm backend framework. https://www.djangoproject.com/
+### Lưu trữ
+Ứng dụng sử dụng Firebase để lưu trữ. 
 
 
 ## Thiết lập 
-Tại file api.js, sửa giá trị HOST dựa theo địa chỉ IP của bạn. Chẳng hạn, nếu địa chỉ IP của bạn là 192.168.0.105 thì HOST = '192.168.0.105:8000'
+- Tại file api.js, sửa giá trị HOST dựa theo địa chỉ IP của bạn. Chẳng hạn, nếu địa chỉ IP của bạn là 192.168.0.105 thì HOST = 'http://192.168.0.105:8000/'
+- Chạy chương trình trên Expo: `npx expo start`
+- Chạy chương trình trên Django: `python manage.py runserver 192.168.0.105:8000` (Thay 192.168.0.105 bằng địa chỉ IP của bạn)
+
 
 ## Tính năng
 - Đăng bài và xóa bài viết.
