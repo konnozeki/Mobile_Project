@@ -28,7 +28,9 @@ const RecommendedTab = ({ user, item }) => {
         <SectionHeader title={"Recommended"}></SectionHeader>
         {/* Pass a unique key to force re-render when the key changes */}
         <ImageList key={index} type={item[index].type} user={user}></ImageList>
+        
       </ScrollView>
+      
     </View>
   );
 };

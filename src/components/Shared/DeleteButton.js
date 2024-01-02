@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View , Alert} from 'react-native'
 import React from 'react'
 import { Trash } from '../../constants/icon'
+import { HOST } from '../../constants/api';
 
 const DeleteButton = ({post, navigation}) => {
     const createTwoButtonAlert = () =>
@@ -13,7 +14,7 @@ const DeleteButton = ({post, navigation}) => {
       {
         text: 'Delete',
        onPress: () => {
-        fetch(`http://192.168.0.105:8000/api/post/${post.id}`, {method: 'DELETE'})
+        fetch(HOST+`api/post/${post.id}/`, {method: 'DELETE'})
         .then((response)=>{
             if(!response.ok) {
                 console.log("Error when Deleting the Post.")

@@ -31,7 +31,7 @@ const MyPageDetail = ({route}) => {
         </View>
         <View id='Main'>
           <View id='Submit' style = {{alignSelf: 'center', justifyContent: 'center', height: height * 0.1}}>
-            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={() => navigation.navigate('ImageInputForm', {user: user})}>
+            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: 20}} onPress={() => navigation.navigate('ImageInputForm', {user: user})}>
               <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Submit Anything</Text>
             </TouchableOpacity>
           </View>
@@ -46,16 +46,6 @@ const MyPageDetail = ({route}) => {
             <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>
               <View style = {{marginVertical: '3%', marginHorizontal: '8%', }}>
                 <TouchableOpacity onPress={()=>navigation.navigate('FavouriteScreen', {route: route})}><Text style = {{fontSize: 18}}>Favourite Posts</Text></TouchableOpacity>
-              </View>
-            </View>
-            <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>
-              <View style = {{marginVertical: '3%', marginHorizontal: '8%', }}>
-                <TouchableOpacity><Text style = {{fontSize: 18}}>Privacy</Text></TouchableOpacity>
-              </View>
-            </View>
-            <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>
-              <View style = {{marginVertical: '3%', marginHorizontal: '8%', }}>
-                <TouchableOpacity><Text style = {{fontSize: 18}}>Settings</Text></TouchableOpacity>
               </View>
             </View>
             <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>

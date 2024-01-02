@@ -10,6 +10,7 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { SharedElement } from "react-navigation-shared-element";
 import FavouriteButton from "../Shared/FavouriteButton";
+import { HOST } from "../../constants/api";
 
 const { width } = Dimensions.get("window");
 const IMAGE_WIDTH = (width * 0.985) / 2;
@@ -19,8 +20,9 @@ const SearchImageList = ({ user, type, hashtag }) => {
   const [list, setList] = useState([]);
   const navigation = useNavigation();
 
+
   const fetchImageData = useCallback(() => {
-    fetch(`http://192.168.0.105:8000/api/post/${type}/${hashtag[0]==='#'?hashtag.slice(1):hashtag}/`, {
+    fetch(HOST+`api/post/${type}/${hashtag[0]==='#'?hashtag.slice(1):hashtag}/`, {
       method: "GET",
     })
       .then((response) => {
@@ -39,6 +41,7 @@ const SearchImageList = ({ user, type, hashtag }) => {
           },
         }));
         setList(updatedList);
+        
       })
       .catch((error) => {
         console.error("Error fetching data:", error.message);
@@ -48,6 +51,13 @@ const SearchImageList = ({ user, type, hashtag }) => {
   useEffect(() => {
     fetchImageData();
   }, [fetchImageData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchImageData();
+    }, [fetchImageData])
+  );
+
 
   return (
     <View style={styles.container}>
@@ -70,7 +80,7 @@ const SearchImageList = ({ user, type, hashtag }) => {
               <View style={[styles.card, styles.shadowLight]}>
                 <SharedElement id={`ImageDetails.${item.id}.image`}>
                   <View style={styles.imageBox}>
-                    <Image style={styles.image} source={item.image} />
+                    <Image style={styles.image} source={item.image} blurRadius={item.age_restriction === 'All' ? 0 : 50}/>
                     <View
                       style={{
                         justifyContent: "flex-end",

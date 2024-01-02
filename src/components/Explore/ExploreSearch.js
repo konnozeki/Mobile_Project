@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import BackButton from '../../navigation/Shared/BackButton';
 import { useNavigation } from '@react-navigation/native';
+import { HOST } from '../../constants/api';
 
 const ExploreSearch = ({user, type, icon = true, hashtag=''}) => {
     const navigation = useNavigation()
@@ -27,7 +28,7 @@ const ExploreSearch = ({user, type, icon = true, hashtag=''}) => {
   
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://192.168.0.105:8000/api/hashtags/${type}/`);
+        const response = await fetch(HOST+`api/hashtags/${type}/`);
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {

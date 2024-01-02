@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import AndroidSafeArea from '../../Android/AndroidSafeArea';
+import { HOST } from '../../constants/api';
 
 let loginSuccess = false;
 
@@ -14,7 +15,7 @@ export const getRegisterSuccess = () => {
 const RegisterScreen = ({navigation}) => {
   console.log(getRegisterSuccess())
   const handleRegister = () => {
-    fetch('http://192.168.0.105:8000/api/register/', {
+    fetch(HOST + 'api/register/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ const RegisterScreen = ({navigation}) => {
 
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.logo}>
-        <Image source={require('./../../../assets/icon.png')} style={{maxHeight: 150, maxWidth: 150, resizeMode:'cover'}}></Image>
+        <Image source={require('./../../../assets/favicon.png')} style={{height: 150, width: 150, resizeMode:'cover'}}></Image>
       </View>
        <View style={styles.inputView}>
         <TextInput
@@ -78,7 +79,7 @@ const RegisterScreen = ({navigation}) => {
         /> 
       </View>
       <TouchableOpacity onPress={()=>navigation.navigate('LoginScreen')}>
-        <Text style={styles.forgot_button}>Already have an Account?</Text> 
+        <Text style={styles.forgot_button}>Already have an Account? Login</Text> 
       </TouchableOpacity>
       <TouchableOpacity style={styles.loginBtn} onPress={handleRegister}>
         <Text style={styles.loginText}>Register</Text> 

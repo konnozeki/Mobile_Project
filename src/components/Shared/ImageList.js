@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { SharedElement } from "react-navigation-shared-element";
-import FavouriteButton from "../Shared/FavouriteButton";
+
+import { HOST } from "../../constants/api";
+
+
 
 const { width } = Dimensions.get("window");
 const IMAGE_WIDTH = (width * 0.985) / 2;
@@ -20,7 +23,7 @@ const ImageList = ({ user, type }) => {
   const navigation = useNavigation();
   console.log(type)
   const fetchImageData = useCallback(() => {
-    fetch(`http://192.168.0.105:8000/api/post/${type}/`, { method: "GET" })
+    fetch(HOST+`api/post/${type}/${user.id}/`, { method: "GET" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -72,7 +75,9 @@ const ImageList = ({ user, type }) => {
               <View style={[styles.card, styles.shadowLight]}>
                 <SharedElement id={`ImageDetails.${item.id}.image`}>
                   <View style={styles.imageBox}>
-                    <Image style={styles.image} source={item.image} />
+
+                    <Image style={styles.image} source={item.image} blurRadius={item.age_restriction === 'All' ? 0 : 100} />
+
                     <View
                       style={{
                         justifyContent: "flex-end",

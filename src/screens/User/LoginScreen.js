@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import AndroidSafeArea from '../../Android/AndroidSafeArea';
+import { HOST } from '../../constants/api';
 
 
 
 const LoginScreen = ({navigation}) => {
   const handleLogin = () => {
-    fetch('http://192.168.0.105:8000/api/login/', {
+    fetch(HOST + 'api/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +47,7 @@ const LoginScreen = ({navigation}) => {
 
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.logo}>
-        <Image source={require('./../../../assets/icon.png')} style={{maxHeight: 150, maxWidth: 150, resizeMode:'cover'}}></Image>
+        <Image source={require('./../../../assets/favicon.png')} style={{height: 150, width: 150, resizeMode:'cover'}}></Image>
       </View>
        <View style={styles.inputView}>
         <TextInput
@@ -70,9 +71,6 @@ const LoginScreen = ({navigation}) => {
           value={password}
         /> 
       </View>
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text> 
-      </TouchableOpacity>
       <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
         <Text style={styles.loginText}>Login</Text> 
       </TouchableOpacity>

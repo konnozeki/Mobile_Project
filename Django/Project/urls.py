@@ -6,8 +6,8 @@ urlpatterns = [
     path('user/<int:pk>/', views.user_detail),
     path('post/', views.post_list),
     path('post/<int:pk>/', views.post_detail),
-    path('post/illust/', views.post_illust_list),
-    path('post/photo/', views.post_photograph_list),
+    path('post/illust/<int:pk>/', views.post_illust_list),
+    path('post/photo/<int:pk>/', views.post_photograph_list),
     path('post/user/<int:pk>/', views.post_user_detail),
     path('post/illust/ranking/', views.post_illust_ranking_list),
     path('post/photo/ranking/', views.post_photograph_ranking_list),
@@ -31,5 +31,7 @@ urlpatterns = [
     path('hashtags/photo/', views.fetch_photo_posts_with_hashtag_counts),
     path('hashtags/photo/limited/', views.fetch_photo_posts_with_hashtag_counts_limited),
     path('post/illust/<str:hashtag_word>/', views.posts_illust_by_hashtags),
-    path('post/photo/<str:hashtag_word>/', views.posts_photo_by_hashtags)
+    path('post/photo/<str:hashtag_word>/', views.posts_photo_by_hashtags),
+    path('post/illust/<str:hashtag_word>/recent/', views.posts_illust_by_hashtags_recent),
+    path('post/photo/<str:hashtag_word>/recent/', views.posts_photo_by_hashtags_recent)
 ]

@@ -8,6 +8,7 @@ import ExploreImageList from "./ExploreImageList"
 import { Camera, Illust, User } from '../../constants/icon';
 import ImageList from '../Shared/ImageList'
 import SearchImageList from './SearchImageList'
+import SearchImageListRecent from './SearchImageListRecent'
 
 const ExploreDetail = ({navigation, route}) => {
 
@@ -16,7 +17,7 @@ const ExploreDetail = ({navigation, route}) => {
     const tabs = [
         {
             title: 'New',
-            content: <SearchImageList user={user} type={type} hashtag={hashtag}/>,
+            content: <SearchImageListRecent user={user} type={type} hashtag={hashtag}/>,
             text: {
                 active: <Text style={{color: 'white', paddingVertical: 4}}>New</Text>,
                 inactive: <Text style={{color: 'gray', paddingVertical: 4}}>New</Text>
@@ -25,7 +26,7 @@ const ExploreDetail = ({navigation, route}) => {
         },
         {
             title: 'Popular',
-            content: <Text>Test</Text>,
+            content: <SearchImageList user={user} type={type} hashtag={hashtag}/>,
             text: {
                 active: <Text style={{color: 'white', paddingVertical: 4}}>Popular</Text>,
                 inactive: <Text style={{color: 'gray', paddingVertical: 4}}>Popular</Text>

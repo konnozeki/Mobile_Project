@@ -6,6 +6,7 @@ import AndroidSafeArea from '../../Android/AndroidSafeArea';
 import { Dropdown } from 'react-native-element-dropdown';
 import NavigationHeader from '../../navigation/Shared/NavigationHeader';
 import { useNavigation } from '@react-navigation/native';
+import { HOST } from '../../constants/api';
 
 
 
@@ -89,7 +90,7 @@ export default function ImageInputForm({route}) {
     });
 
     // Making a POST request using Fetch
-    fetch('http://192.168.0.105:8000/api/post/', {
+    fetch(HOST+'api/post/', {
       method: 'POST',
       body: postData,
       
@@ -167,7 +168,7 @@ export default function ImageInputForm({route}) {
         </View>
 
         <View style = {{alignSelf: 'center', justifyContent: 'center', height: height * 0.1}}>
-          <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={pickImage}>
+          <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: 20}} onPress={pickImage}>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>Choose Image</Text>
           </TouchableOpacity>
         </View>
@@ -268,7 +269,7 @@ export default function ImageInputForm({route}) {
       />
       </View>
           <View style = {{alignSelf: 'center', justifyContent: 'center', height: height * 0.1}}>
-            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: '15%'}} onPress={()=>handleSubmit(navigation)}>
+            <TouchableOpacity style={{backgroundColor: '#dddddd', paddingVertical: '4%', paddingHorizontal: '25%', borderRadius: 20}} onPress={()=>handleSubmit(navigation)}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>Post</Text>
             </TouchableOpacity>
           </View>

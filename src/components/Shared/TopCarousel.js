@@ -3,13 +3,14 @@ import React, {useState, useEffect, useCallback} from 'react'
 import FavouriteButton from './FavouriteButton';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {SharedElement} from 'react-navigation-shared-element'
+import { HOST } from '../../constants/api';
 const { width } = Dimensions.get('window');
 const IMAGE_WIDTH = 0.7 * width;
 const IMAGE_HEIGHT = width * 0.55;
 const TopCarousel = ({user, list, title, type}) => {
   const [toplist, setList] = useState([])
   const fetchList = () => {
-    fetch(`http://192.168.0.105:8000/api/post/${type}/ranking/`, {method: 'GET'})
+    fetch(HOST+`api/post/${type}/ranking/`, {method: 'GET'})
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -70,8 +71,8 @@ const TopCarousel = ({user, list, title, type}) => {
               
               </SharedElement>
               <View style={[styles.titleBox]}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.author}>{item.author}</Text>
+                <Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+
               </View>  
               
             </View>

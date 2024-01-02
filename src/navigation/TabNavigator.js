@@ -40,7 +40,7 @@ const TabNavigator = ({route}) => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: 'white', tabBarStyle: {backgroundColor: '#242526', paddingBottom: '8%'}}}
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: 'white', tabBarStyle: {backgroundColor: '#242526'}}}
     >
       {tabs.map(({screen, name, icon }) => {
         return (

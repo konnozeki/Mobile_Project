@@ -20,6 +20,7 @@ import UserInfoImage from "./UserInfoImage";
 import ImageList from "../Shared/ImageList";
 import FavouriteButton from "../Shared/FavouriteButton";
 import DeleteButton from "../Shared/DeleteButton";
+import { HOST } from "../../constants/api";
 const { width } = Dimensions.get("window");
 
 
@@ -30,7 +31,7 @@ const ImageDetail = ({ navigation, route}) => {
   const [author, setAuthor] = useState('')
   const [likes, setLikes] = useState(0)
   useEffect(()=>{
-    fetch(`http://192.168.0.105:8000/api/favourite/post/${imageDetail.id}`, {method: 'GET'})
+    fetch(HOST+`api/favourite/post/${imageDetail.id}`, {method: 'GET'})
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -46,7 +47,7 @@ const ImageDetail = ({ navigation, route}) => {
   })
   useEffect(() => {
     if (imageDetail && imageDetail.contributor) {
-      fetch(`http://192.168.0.105:8000/api/user/${imageDetail.contributor}`, { method: "GET" })
+      fetch(HOST+`api/user/${imageDetail.contributor}`, { method: "GET" })
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);

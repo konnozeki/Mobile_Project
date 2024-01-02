@@ -2,14 +2,17 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity, Ima
 import React, { useEffect, useState} from 'react'
 import AndroidSafeArea from '../../Android/AndroidSafeArea'
 import { useNavigation } from '@react-navigation/native'
+import { HOST } from '../../constants/api'
+import { LogBox } from 'react-native';
 const NotificationScreen = ({route}) => {
+  LogBox.ignoreAllLogs()
     const navigation = useNavigation()
     const {user} = route.params
     const [author, setAuthor] = useState([]);
-const [userList, setUserList] = useState([]);
+const [userList, setUserList] = useState([{username: ''}]);
 const [postList, setPostList] = useState([]);
 useEffect(() => {
-  fetch(`http://192.168.0.105:8000/api/favourite/contributor/${user.id}`, { method: 'GET' })
+  fetch(HOST+`api/favourite/contributor/${user.id}`, { method: 'GET' })
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -21,7 +24,7 @@ useEffect(() => {
 
       // Create an array of promises for fetching user data for each author
       const promises = data.map((author) =>
-        fetch(`http://192.168.0.105:8000/api/user/${author.user}`, { method: 'GET' })
+        fetch(HOST+`api/user/${author.user}`, { method: 'GET' })
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -40,7 +43,7 @@ useEffect(() => {
         });
 
          const promisesPost = data.map((author) =>
-        fetch(`http://192.168.0.105:8000/api/post/${author.post}`, { method: 'GET' })
+        fetch(HOST+`api/post/${author.post}`, { method: 'GET' })
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -87,9 +90,9 @@ if(author.length!==0&&postList.length!==0)
             <View style={{ borderBottomColor: "gray", borderTopWidth: StyleSheet.hairlineWidth, flex: 2, justifyContent:'center'}}>
                     {author.map((item, index) => (
                         <>
-                        {console.log(index)}
-                        <View style={{marginHorizontal: '8%', paddingVertical: '7%'}}>
-                        <TouchableOpacity key={item.id} onPress={()=>navigation.navigate('ImageDetails', {imageDetail: postList[index] ,user: user, type: postList[index].type === undefined || postList[index].type ==='Illust' ? 'illust' : 'photo'})}>
+
+                        <View key={index} style={{marginHorizontal: '8%', paddingVertical: '7%'}}>
+                        <TouchableOpacity  onPress={()=>navigation.navigate('ImageDetails', {imageDetail: postList[index] ,user: user, type: postList[index].type === undefined || postList[index].type ==='Illust' ? 'illust' : 'photo'})}>
                           <View style={{flexDirection: 'row'}}>
 
 

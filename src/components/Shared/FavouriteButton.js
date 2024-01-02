@@ -2,6 +2,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Favourite } from "../../constants/icon";
 import { useFocusEffect } from "@react-navigation/native";
+import { HOST } from "../../constants/api";
 
 const FavouriteButton = ({ style, user, post }) => {
   const [isActive, setIsActive] = useState(false);
@@ -10,7 +11,7 @@ const FavouriteButton = ({ style, user, post }) => {
     try {
       if (user !== undefined && post !== undefined) {
         const response = await fetch(
-          `http://192.168.0.105:8000/api/favourite/${user}/${post}`,
+          HOST+`api/favourite/${user}/${post}`,
           { method: "GET" }
         );
   
@@ -36,7 +37,7 @@ const FavouriteButton = ({ style, user, post }) => {
     try {
       if (isActive) {
         const response = await fetch(
-          `http://192.168.0.105:8000/api/favourite/${user}/${post}`,
+          HOST+ `api/favourite/${user}/${post}`,
           { method: "DELETE" }
         );
 
@@ -50,7 +51,7 @@ const FavouriteButton = ({ style, user, post }) => {
           setIsActive(false);
         }
       } else {
-        const response = await fetch(`http://192.168.0.105:8000/api/favourite/`, {
+        const response = await fetch(HOST+`api/favourite/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

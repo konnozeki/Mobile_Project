@@ -11,6 +11,7 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { SharedElement } from "react-navigation-shared-element";
 import FavouriteButton from "../Shared/FavouriteButton";
+import { HOST } from "../../constants/api";
 
 const { width } = Dimensions.get("window");
 const IMAGE_WIDTH = (width * 0.985) / 2;
@@ -22,7 +23,7 @@ const FavouriteImageList = ({ user, type }) => {
   const [postData, setPostData] = useState([]);
   
     const fetchImageData = useCallback(() => {
-      fetch(`http://192.168.0.105:8000/api/favourite/user/${user.id}`, { method: 'GET' })
+      fetch(HOST+`api/favourite/user/${user.id}`, { method: 'GET' })
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -43,7 +44,7 @@ const FavouriteImageList = ({ user, type }) => {
       for (let i = 0; i < list.length; i++) {
         try {
           console.log(list[i].post)
-          const response = await fetch(`http://192.168.0.105:8000/api/post/${list[i].post}`, { method: 'GET' });
+          const response = await fetch( HOST+`api/post/${list[i].post}`, { method: 'GET' });
     
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -96,7 +97,7 @@ const FavouriteImageList = ({ user, type }) => {
               <View style={[styles.card, styles.shadowLight]}>
                 <SharedElement id={`ImageDetails.${item.id}.image`}>
                   <View style={styles.imageBox}>
-                    <Image style={styles.image} source={item.image} />
+                    <Image style={styles.image} source={item.image} blurRadius={item.age_restriction === 'All' ? 0 : 50} />
                     <View
                       style={{
                         justifyContent: "flex-end",

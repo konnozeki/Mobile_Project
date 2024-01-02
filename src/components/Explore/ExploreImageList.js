@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { HOST } from "../../constants/api";
 
 const { width, height } = Dimensions.get("window");
 const IMAGE_HEIGHT = height * 0.3;
@@ -19,7 +20,7 @@ const ExploreImageList = ({ type }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://192.168.0.105:8000/api/hashtags/${type}/limited/`);
+      const response = await fetch(HOST+`api/hashtags/${type}/limited/`);
       const jsonData = await response.json();
       setData(jsonData);
       setSearchResults(Object.keys(jsonData));

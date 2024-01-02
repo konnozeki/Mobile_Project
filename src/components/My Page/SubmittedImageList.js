@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -7,8 +7,9 @@ import {
   Image,
 } from "react-native";
 import FavouriteButton from "../Shared/FavouriteButton";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { SharedElement } from "react-navigation-shared-element";
+import { HOST } from "../../constants/api";
 
 const { width } = Dimensions.get("window");
 const IMAGE_WIDTH = (width * 0.985) / 2;
@@ -20,29 +21,39 @@ const SubmittedImageList = ({ route, type }) => {
 
   const [list, setList] = useState([]);
 
-  useEffect(() => {
-    fetch(`http://192.168.0.105:8000/api/post/${type}/user/${user.id}`, { method: "GET" })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const typelist = []
-
-        const updatedList = data.map((item) => ({
-          ...item,
-          image: {
-            uri: `https://firebasestorage.googleapis.com/v0/b/illustphoto-b780b.appspot.com/o/user%2F${user.id}%2Fpost%2F${decodeURIComponent(item.picture).split("/").pop()}?alt=media`,
-          },
-        }));
-        setList(updatedList);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error.message);
+  const fetchPostData = useCallback(async () => {
+    try {
+      const response = await fetch(`${HOST}api/post/${type}/user/${user.id}`, {
+        method: "GET",
       });
-  }, [user.id]);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      const updatedList = data.map((item) => ({
+        ...item,
+        image: {
+          uri: `https://firebasestorage.googleapis.com/v0/b/illustphoto-b780b.appspot.com/o/user%2F${user.id}%2Fpost%2F${decodeURIComponent(item.picture).split("/").pop()}?alt=media`,
+        },
+      }));
+  
+      setList(updatedList);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  }, []);
+  
+  useEffect(() => {
+    fetchPostData();
+  }, [fetchPostData]);
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchPostData();
+    }, [fetchPostData])
+  );
 
   return (
     <View style={styles.container}>
@@ -66,6 +77,7 @@ const SubmittedImageList = ({ route, type }) => {
                     <Image
                       style={styles.image}
                       source={item.image}
+                      blurRadius={item.age_restriction === 'All' ? 0 : 100}
                     />
                     <View
                       style={{

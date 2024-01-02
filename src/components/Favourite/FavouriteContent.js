@@ -23,15 +23,10 @@ const FavouriteContent = ({route}) => {
         icon: Camera,
         type: 'photo'
     },
-    {
-        title: 'User',
-        content: <Text>User</Text>,
-        icon: User
-    },
 ]
   return (
     <View style={{backgroundColor: 'white', height: '100%'}}>
-        <NavigationHeader navigation={navigation}></NavigationHeader>
+        <NavigationHeader author={user.username} title={"Favourite Posts"} navigation={navigation}></NavigationHeader>
         <Tab item={tabs}></Tab>
 
     </View>
