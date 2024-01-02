@@ -8,6 +8,7 @@ import UserDetail from '../../components/User/UserDetail'
 import ImageDetail from '../../components/Image Detail/ImageDetail'
 import SubmittedScreen from '../../screens/My Page/SubmittedScreen'
 import FavouriteScreen from '../../screens/Favourite/FavouriteScreen'
+import ExploreDetail from '../../components/Explore/ExploreDetail'
 const Stack = createSharedElementStackNavigator()
 const MyPageStack = ({route}) => {
   const {user} = route.params
@@ -19,6 +20,7 @@ const MyPageStack = ({route}) => {
         <Stack.Screen name="UserDetails" initialParams={{user:user}} component={UserDetail} options={{headerShown:false, useNativeDriver:true }}></Stack.Screen>
         <Stack.Screen name="ImageInputForm" initialParams={{user:user}} component={ImageInputForm} options={{headerShown: false, useNativeDriver:true}}/>
         <Stack.Screen name='ImageDetails' initialParams={{user:user}} component={ImageDetail} options={{headerShown: false, useNativeDriver:true}}/>
+        <Stack.Screen name="ExploreDetail" initialParams={{user: user}} component={ExploreDetail} options={{headerShown: false, useNativeDriver:true}}/>
     </Stack.Navigator>
   )
 }
